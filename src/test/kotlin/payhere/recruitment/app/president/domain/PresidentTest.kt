@@ -2,6 +2,7 @@ package payhere.recruitment.app.president.domain
 
 
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -28,7 +29,7 @@ class PresidentTest {
         }.errorCode
 
         //then
-        Assertions.assertEquals("핸드폰 번호는 11글자여야 합니다.",errorCode.message)
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST,errorCode.status)
+        assertEquals("핸드폰 번호는 11글자여야 합니다.",errorCode.message)
+        assertEquals(HttpStatus.BAD_REQUEST,errorCode.status)
     }
 }
