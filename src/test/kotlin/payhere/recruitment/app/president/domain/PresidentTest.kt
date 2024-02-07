@@ -54,4 +54,22 @@ class PresidentTest {
         assertEquals("핸드폰 번호는 11글자여야 합니다.",errorCode.message)
         assertEquals(HttpStatus.BAD_REQUEST,errorCode.status)
     }
+
+
+    @Test
+    @DisplayName("핸드폰 번호가 11글자이면 사장님을 생성한다.")
+    fun occurPhoneLengthEquals11Create() {
+        //given
+        val phone = "1".repeat(11)
+        val password = "password"
+        val salt = "salt"
+
+        //when
+        val president = President(phone = phone, password = password, salt = salt)
+
+        //then
+        assertEquals(phone, president.phone)
+        assertEquals(password, president.password)
+        assertEquals(salt, president.salt)
+    }
 }
