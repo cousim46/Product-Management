@@ -22,15 +22,17 @@ class President(
         const val PHONE_START_011_CONSTRAINTS_LENGTH = 10
         const val PHONE_START_011 = "011"
     }
+
     init {
         val startNumber = phone.substring(0, 3)
-        if(startNumber == PHONE_START_011) {
+        if (startNumber == PHONE_START_011) {
             require(phone.length == PHONE_START_011_CONSTRAINTS_LENGTH) {
                 throw PayhereException(VIOLATION_PHONE_START_011_LENGTH_CONSTRAINTS)
             }
-        }
-        require(phone.length == PHONE_CONSTRAINTS_LENGTH) {
-            throw PayhereException(VIOLATION_PHONE_LENGTH_CONSTRAINTS)
+        } else {
+            require(phone.length == PHONE_CONSTRAINTS_LENGTH) {
+                throw PayhereException(VIOLATION_PHONE_LENGTH_CONSTRAINTS)
+            }
         }
     }
 }
