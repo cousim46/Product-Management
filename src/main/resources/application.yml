@@ -1,6 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:4000/payhere
+    username: payhere
+    password: payhere
   jpa:
     database-platform: org.hibernate.dialect.MySQL57Dialect
     properties:
