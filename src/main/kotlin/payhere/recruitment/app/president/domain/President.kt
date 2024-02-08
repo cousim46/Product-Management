@@ -13,7 +13,7 @@ class President(
     @Column(nullable = false)
     var password: String,
     @Column(nullable = false)
-    var salt: String,
+    var salt: Int,
 ) : BaseEntity() {
     companion object {
         const val PHONE_CONSTRAINTS_LENGTH = 11
