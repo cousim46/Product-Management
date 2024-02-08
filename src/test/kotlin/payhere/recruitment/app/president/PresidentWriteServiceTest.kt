@@ -15,6 +15,8 @@ class PresidentWriteServiceTest(
     lateinit var presidentWriteService: PresidentWriteService
     @Autowired
     lateinit var presidentRepository: PresidentRepository
+    @Autowired
+    lateinit var bCryptPasswordEncoder: BCryptPasswordEncoder
 
     @AfterEach
     fun deleteAll() {
@@ -72,5 +74,38 @@ class PresidentWriteServiceTest(
         val findPresident = presidentRepository.findById(savePresident.id).get()
         Assertions.assertEquals(savePresident.phone, findPresident.phone)
         Assertions.assertEquals(savePresident.salt, findPresident.salt)
+    }
+
+    @Test
+    @DisplayName("솔트암호화로 사장님이 입력한 비밀번호와 회원가입된 비밀번호가 일치하지 않는다.")
+    fun encodePassword() {
+        //given
+        val phone = "1".repeat(11)
+        val password = "payhere"
+        val salt = RandomNumber.create()
+
+        //when
+        val savePresident = presidentWriteService.create(phone = phone, password = password, salt = salt)
+
+        //then
+        val findPresident = presidentRepository.findById(savePresident.id).get()
+        Assertions.assertFalse(bCryptPasswordEncoder.matches(password, findPresident.password))
+    }
+
+    @Test
+    @DisplayName("솔트암호화로 사장님이 입력한 비밀번호와 salt 합친 값과 회원가입된 비밀번호가 일치한다.")
+    fun encodePassword2() {
+        //given
+        val phone = "1".repeat(11)
+        val password = "payhere"
+        val salt = RandomNumber.create()
+        val saltRawPassword = password + salt
+
+        //when
+        val savePresident = presidentWriteService.create(phone = phone, password = password, salt = salt)
+
+        //then
+        val findPresident = presidentRepository.findById(savePresident.id).get()
+        Assertions.assertTrue(bCryptPasswordEncoder.matches(saltRawPassword, findPresident.password))
     }
 }
