@@ -1,4 +1,4 @@
-package payhere.demo.error
+package payhere.recruitment.error
 
 import org.springframework.http.HttpStatus
 

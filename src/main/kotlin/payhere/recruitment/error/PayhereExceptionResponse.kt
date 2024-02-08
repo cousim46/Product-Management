@@ -3,7 +3,6 @@ package payhere.recruitment.error
 import org.springframework.http.ResponseEntity
 import payhere.demo.app.common.CommonResponse
 import payhere.demo.app.common.Meta
-import payhere.demo.error.PayhereErrorCode
 
 class PayhereExceptionResponse {
 

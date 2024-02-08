@@ -1,6 +1,5 @@
-package payhere.demo.error
+package payhere.recruitment.error
 
 class PayhereException(
     val errorCode: PayhereErrorCode,
-) : RuntimeException() {
-}
+) : RuntimeException()
