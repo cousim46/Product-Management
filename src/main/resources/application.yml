@@ -11,3 +11,7 @@ spring:
         show_sql: true
     hibernate:
       ddl-auto: update
+jwt:
+  secret-key: cGF5aGVyZUJhY2tlbmRMYW5ndWFnZUtvdGxpbkFuZFNwcmluZ0Jvb3RSZWNydWl0bWVudFRhc2tVc2VKUEFBbmRTcHJpbmdCb290TXlTUUxTZWN1cml0eQ==
+  access-token-expire-time: 3600
+  refresh-token-expire-time: 7200
