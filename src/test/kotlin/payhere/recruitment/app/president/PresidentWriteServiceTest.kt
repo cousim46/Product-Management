@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import payhere.recruitment.app.president.domain.President
 import payhere.recruitment.error.PayhereException
 import payhere.recruitment.app.president.dto.request.RandomNumber
 
