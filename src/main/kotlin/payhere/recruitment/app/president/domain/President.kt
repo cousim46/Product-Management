@@ -1,6 +1,6 @@
 package payhere.recruitment.app.president.domain
 
-import payhere.demo.error.PayhereErrorCode.VIOLATION_PHONE_CONSTRAINTS
+import payhere.demo.error.PayhereErrorCode.VIOLATION_PHONE_LENGTH_CONSTRAINTS
 import payhere.demo.error.PayhereException
 import payhere.recruitment.app.common.BaseEntity
 import javax.persistence.Column
@@ -20,7 +20,7 @@ class President(
     }
     init {
         require(phone.length == PHONE_CONSTRAINTS_LENGTH) {
-            throw PayhereException(VIOLATION_PHONE_CONSTRAINTS)
+            throw PayhereException(VIOLATION_PHONE_LENGTH_CONSTRAINTS)
         }
     }
 }
