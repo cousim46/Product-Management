@@ -34,10 +34,10 @@ class PresidentTest {
     }
 
     @Test
-    @DisplayName("핸드폰 번호가 11글자 미만이면 예외가 발생한다.")
+    @DisplayName("핸드폰 번호 앞자리가 011이 아닐경우 핸드폰 번호가 11글자 미만이면 예외가 발생한다.")
     fun occurPhoneLengthLessThan11Exception() {
         //given
-        val phone = "1".repeat(10)
+        val phone = "0101234123"
         val password = "password"
         val salt = RandomNumber.create()
 
@@ -57,10 +57,10 @@ class PresidentTest {
 
 
     @Test
-    @DisplayName("핸드폰 번호가 11글자이면 사장님을 생성한다.")
+    @DisplayName("핸드폰 번호 앞자리가 011이 아니고 핸드폰 번호가 11글자이면 사장님을 생성한다.")
     fun occurPhoneLengthEquals11Create() {
         //given
-        val phone = "1".repeat(11)
+        val phone = "01012341234"
         val password = "password"
         val salt = RandomNumber.create()
 
