@@ -1,4 +1,4 @@
-package payhere.recruitment.app.common
+package payhere.recruitment.app.common.domain
 
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
