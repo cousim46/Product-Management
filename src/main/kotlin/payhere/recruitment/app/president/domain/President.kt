@@ -1,7 +1,7 @@
 package payhere.recruitment.app.president.domain
 
-import payhere.demo.error.PayhereErrorCode.VIOLATION_PHONE_LENGTH_CONSTRAINTS
-import payhere.demo.error.PayhereException
+import payhere.recruitment.error.PayhereErrorCode.VIOLATION_PHONE_LENGTH_CONSTRAINTS
+import payhere.recruitment.error.PayhereException
 import payhere.recruitment.app.common.BaseEntity
 import javax.persistence.Column
 import javax.persistence.Entity
