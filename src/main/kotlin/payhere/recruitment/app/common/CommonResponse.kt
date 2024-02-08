@@ -5,7 +5,7 @@ data class CommonResponse(
     val data: Data?
 ) {
     companion object {
-        fun toResponse(meta: Meta, data: Data? = null): CommonResponse {
+        fun toResponse(meta: Meta = Meta.of(), data: Data? = null): CommonResponse {
             return CommonResponse(
                 meta = meta,
                 data = data,
