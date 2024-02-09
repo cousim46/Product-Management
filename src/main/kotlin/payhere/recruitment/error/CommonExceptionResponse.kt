@@ -4,10 +4,10 @@ import org.springframework.http.ResponseEntity
 import payhere.demo.app.common.CommonResponse
 import payhere.demo.app.common.Meta
 
-class PayhereExceptionResponse {
+class CommonExceptionResponse {
 
     companion object {
-        fun toResponse(errorCode: PayhereErrorCode): ResponseEntity<CommonResponse> {
+        fun toResponse(errorCode: CommonErrorCode): ResponseEntity<CommonResponse> {
             return ResponseEntity.status(errorCode.status)
                 .body(
                     CommonResponse.toResponse(
