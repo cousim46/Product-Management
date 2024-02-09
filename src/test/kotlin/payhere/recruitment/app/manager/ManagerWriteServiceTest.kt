@@ -14,13 +14,13 @@ class ManagerWriteServiceTest(
     @Autowired
     lateinit var presidentWriteService: PresidentWriteService
     @Autowired
-    lateinit var presidentRepository: PresidentRepository
+    lateinit var managerRepository: ManagerRepository
     @Autowired
     lateinit var bCryptPasswordEncoder: BCryptPasswordEncoder
 
     @AfterEach
     fun deleteAll() {
-        presidentRepository.deleteAll()
+        managerRepository.deleteAll()
     }
 
     @Test
@@ -142,7 +142,7 @@ class ManagerWriteServiceTest(
         val savePresident = presidentWriteService.create(phone = phone, password = password, salt = salt)
 
         //then
-        val findPresident = presidentRepository.findById(savePresident.id).get()
+        val findPresident = managerRepository.findById(savePresident.id).get()
         Assertions.assertFalse(bCryptPasswordEncoder.matches(password, findPresident.password))
     }
 
@@ -159,7 +159,7 @@ class ManagerWriteServiceTest(
         val savePresident = presidentWriteService.create(phone = phone, password = password, salt = salt)
 
         //then
-        val findPresident = presidentRepository.findById(savePresident.id).get()
+        val findPresident = managerRepository.findById(savePresident.id).get()
         Assertions.assertTrue(bCryptPasswordEncoder.matches(saltRawPassword, findPresident.password))
     }
 }

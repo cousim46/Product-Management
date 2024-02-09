@@ -4,8 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository
 import payhere.recruitment.app.token.domain.RefreshToken
 
 interface RefreshTokenRepository : JpaRepository<RefreshToken, Long> {
-    fun findByPresidentId(presidentId: Long): RefreshToken?
+    fun findByManagerId(managerId: Long): RefreshToken?
 
-    fun existsByPresidentId(presidentId: Long): Boolean
-    fun deleteByPresidentId(presidentId: Long): Boolean
+    fun existsByManagerId(managerId: Long): Boolean
+    fun deleteByManagerId(managerId: Long)
 }
