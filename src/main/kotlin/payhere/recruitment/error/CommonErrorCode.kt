@@ -14,8 +14,12 @@ enum class CommonErrorCode(
 
     REFRESH_TOKEN_EXPIRE(UNAUTHORIZED,"리프레쉬 토큰이 만료되었습니다."),
     ACCESS_TOKEN_EXPIRE(UNAUTHORIZED,"액세스 토큰이 만료되었습니다."),
+    UNAUTHENTICATED(UNAUTHORIZED, "인증된 사용자가 아닙니다."),
+
+    ACCESS_DENIED(FORBIDDEN, "권한이 없는 접근입니다."),
 
     NOT_EXSISTS_INFO(NOT_FOUND,"존재하지 않은 정보입니다.");
+
     fun statusValue(): Int {
         return status.value()
     }
