@@ -1,4 +1,4 @@
-package payhere.recruitment.app.president.dto.request
+package payhere.recruitment.app.manager.dto.request
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import payhere.recruitment.error.CommonErrorCode.*
@@ -47,3 +47,12 @@ data class PresidentCreate(
         }
     }
 }
+
+data class LoginInfo(
+    val id: Long,
+)
+
+data class Longin(
+    val phone: String,
+    val password: String,
+)
