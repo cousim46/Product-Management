@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.http.HttpStatus
-import payhere.recruitment.error.PayhereException
+import payhere.recruitment.error.CommonException
 import payhere.recruitment.app.president.dto.request.RandomNumber
 
 class PresidentTest {
@@ -20,7 +20,7 @@ class PresidentTest {
         val salt = RandomNumber.create()
 
         //when
-        val errorCode = assertThrows<PayhereException> {
+        val errorCode = assertThrows<CommonException> {
             President(
                 phone = phone,
                 password = password,
@@ -42,7 +42,7 @@ class PresidentTest {
         val salt = RandomNumber.create()
 
         //when
-        val errorCode = assertThrows<PayhereException> {
+        val errorCode = assertThrows<CommonException> {
             President(
                 phone = phone,
                 password = password,
@@ -82,7 +82,7 @@ class PresidentTest {
         val salt = RandomNumber.create()
 
         //when
-        val errorCode = assertThrows<PayhereException> {
+        val errorCode = assertThrows<CommonException> {
             President(
                 phone = phone,
                 password = password,
@@ -104,7 +104,7 @@ class PresidentTest {
         val salt = RandomNumber.create()
 
         //when
-        val errorCode = assertThrows<PayhereException> {
+        val errorCode = assertThrows<CommonException> {
             President(
                 phone = phone,
                 password = password,

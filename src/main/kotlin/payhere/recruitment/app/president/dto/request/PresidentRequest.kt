@@ -1,9 +1,8 @@
 package payhere.recruitment.app.president.dto.request
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import payhere.recruitment.error.PayhereErrorCode
-import payhere.recruitment.error.PayhereErrorCode.*
-import payhere.recruitment.error.PayhereException
+import payhere.recruitment.error.CommonErrorCode.*
+import payhere.recruitment.error.CommonException
 import java.security.SecureRandom
 import java.util.regex.Pattern
 
@@ -36,15 +35,15 @@ data class PresidentCreate(
 
         if(startNumber == PHONE_START_011) {
             require(phone.length == PHONE_START_011_CONSTRAINTS_LENGTH) {
-                throw PayhereException(VIOLATION_PHONE_START_011_LENGTH_CONSTRAINTS)
+                throw CommonException(VIOLATION_PHONE_START_011_LENGTH_CONSTRAINTS)
             }
         }else {
             require(phone.length == PHONE_BASIC_CONSTRAINTS_LENGTH) {
-                throw PayhereException(VIOLATION_PHONE_LENGTH_CONSTRAINTS)
+                throw CommonException(VIOLATION_PHONE_LENGTH_CONSTRAINTS)
             }
         }
         require(Pattern.matches(PHONE_START_011_REGEX, phone) || Pattern.matches(PHONE_BASIC_REGEX, phone) ) {
-            throw PayhereException(VIOLATION_PHONE_REGEX_CONSTRAINTS)
+            throw CommonException(VIOLATION_PHONE_REGEX_CONSTRAINTS)
         }
     }
 }

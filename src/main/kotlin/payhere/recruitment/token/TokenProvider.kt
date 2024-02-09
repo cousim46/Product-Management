@@ -16,9 +16,9 @@ import org.springframework.stereotype.Component
 import payhere.recruitment.app.president.PresidentRepository
 import payhere.recruitment.app.token.RefreshTokenRepository
 import payhere.recruitment.app.token.domain.RefreshToken
-import payhere.recruitment.error.PayhereErrorCode.NOT_EXSISTS_INFO
-import payhere.recruitment.error.PayhereErrorCode.REFRESH_TOKEN_EXPIRE
-import payhere.recruitment.error.PayhereException
+import payhere.recruitment.error.CommonErrorCode.NOT_EXSISTS_INFO
+import payhere.recruitment.error.CommonErrorCode.REFRESH_TOKEN_EXPIRE
+import payhere.recruitment.error.CommonException
 import payhere.recruitment.security.LoginUserDetail
 import java.security.Key
 import java.time.LocalDateTime
@@ -58,7 +58,7 @@ class TokenProvider(
         var loginToken: LoginToken? = refreshTokenRepository.findByPresidentId(id)?.let {
             val refreshTokenExpireAt = getExpireAt(it.expireAt)
             if (nowTokenExpire > refreshTokenExpireAt) {
-                throw PayhereException(REFRESH_TOKEN_EXPIRE)
+                throw CommonException(REFRESH_TOKEN_EXPIRE)
             }
             LoginToken(
                 access = accessToken,
@@ -72,7 +72,7 @@ class TokenProvider(
                 tokenExpireTime = refreshTokenExpire,
             )
             val president = presidentRepository.findByIdOrNull(id)
-                ?: throw PayhereException(NOT_EXSISTS_INFO)
+                ?: throw CommonException(NOT_EXSISTS_INFO)
             val savedRefreshRefreshToken = refreshTokenRepository.save(
                 RefreshToken(
                     president = president,
@@ -100,7 +100,7 @@ class TokenProvider(
 
     fun getAuthentication(token: String): Authentication {
         val president =
-            presidentRepository.findByIdOrNull(getAccount(token)) ?: throw PayhereException(
+            presidentRepository.findByIdOrNull(getAccount(token)) ?: throw CommonException(
                 NOT_EXSISTS_INFO
             )
         val loginUserDetail = LoginUserDetail(president.phone);

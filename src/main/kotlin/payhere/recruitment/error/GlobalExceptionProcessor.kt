@@ -8,10 +8,10 @@ import payhere.demo.app.common.CommonResponse
 @RestControllerAdvice
 class GlobalExceptionProcessor {
 
-    @ExceptionHandler(PayhereException::class)
+    @ExceptionHandler(CommonException::class)
     fun payhereExceptionResponse(
-        payhereException: PayhereException
+        commonException: CommonException
     ): ResponseEntity<CommonResponse> {
-        return PayhereExceptionResponse.toResponse(errorCode = payhereException.errorCode)
+        return CommonExceptionResponse.toResponse(errorCode = commonException.errorCode)
     }
 }
