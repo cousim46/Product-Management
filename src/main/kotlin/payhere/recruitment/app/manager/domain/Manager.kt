@@ -19,7 +19,7 @@ class Manager(
     @Column(nullable = false)
     var salt: Int,
     @Enumerated(EnumType.STRING)
-    val position: Position
+    val position: Position = Position.PRESIDENT
 ) : BaseEntity() {
     companion object {
         const val PHONE_CONSTRAINTS_LENGTH = 11
