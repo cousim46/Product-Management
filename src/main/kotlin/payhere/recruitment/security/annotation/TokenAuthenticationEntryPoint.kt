@@ -22,6 +22,6 @@ class TokenAuthenticationEntryPoint(
         val errorResponse = CommonExceptionResponse.toResponse(CommonErrorCode.UNAUTHENTICATED)
         response.contentType = MediaType.APPLICATION_JSON_VALUE
         response.characterEncoding = "UTF-8"
-        response.writer.write(objectMapper.writeValueAsString(errorResponse))
+        response.writer.write(objectMapper.writeValueAsString(errorResponse.body))
     }
 }
