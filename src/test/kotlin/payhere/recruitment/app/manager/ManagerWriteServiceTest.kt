@@ -12,7 +12,7 @@ import payhere.recruitment.app.manager.dto.request.RandomNumber
 class ManagerWriteServiceTest(
 ) {
     @Autowired
-    lateinit var presidentWriteService: PresidentWriteService
+    lateinit var managerWriteService: ManagerWriteService
     @Autowired
     lateinit var managerRepository: ManagerRepository
     @Autowired
@@ -33,7 +33,7 @@ class ManagerWriteServiceTest(
 
         //when
         val errorCode = assertThrows<CommonException> {
-            presidentWriteService.create(phone = phone, password = password, salt =salt)
+            managerWriteService.create(phone = phone, password = password, salt =salt)
         }.errorCode
 
         //then
@@ -51,7 +51,7 @@ class ManagerWriteServiceTest(
 
         //when
         val errorCode = assertThrows<CommonException> {
-            presidentWriteService.create(phone = phone, password = password, salt =salt)
+            managerWriteService.create(phone = phone, password = password, salt =salt)
         }.errorCode
 
         //then
@@ -69,7 +69,7 @@ class ManagerWriteServiceTest(
 
         //when
         val president =
-            presidentWriteService.create(phone = phone, password = password, salt = salt)
+            managerWriteService.create(phone = phone, password = password, salt = salt)
 
         //then
         Assertions.assertEquals(phone, president.phone)
@@ -86,7 +86,7 @@ class ManagerWriteServiceTest(
 
         //when
         val errorCode = assertThrows<CommonException> {
-            presidentWriteService.create(phone = phone, password = password, salt =salt)
+            managerWriteService.create(phone = phone, password = password, salt =salt)
         }.errorCode
 
         //then
@@ -104,7 +104,7 @@ class ManagerWriteServiceTest(
 
         //when
         val errorCode = assertThrows<CommonException> {
-            presidentWriteService.create(phone = phone, password = password, salt =salt)
+            managerWriteService.create(phone = phone, password = password, salt =salt)
         }.errorCode
 
         //then
@@ -122,7 +122,7 @@ class ManagerWriteServiceTest(
         val salt = RandomNumber.create()
 
         //when
-        val president = presidentWriteService.create(phone = phone, password = password, salt =salt)
+        val president = managerWriteService.create(phone = phone, password = password, salt =salt)
 
         //then
         Assertions.assertEquals(phone, president.phone)
@@ -139,7 +139,7 @@ class ManagerWriteServiceTest(
         val salt = RandomNumber.create()
 
         //when
-        val savePresident = presidentWriteService.create(phone = phone, password = password, salt = salt)
+        val savePresident = managerWriteService.create(phone = phone, password = password, salt = salt)
 
         //then
         val findPresident = managerRepository.findById(savePresident.id).get()
@@ -156,7 +156,7 @@ class ManagerWriteServiceTest(
         val saltRawPassword = password + salt
 
         //when
-        val savePresident = presidentWriteService.create(phone = phone, password = password, salt = salt)
+        val savePresident = managerWriteService.create(phone = phone, password = password, salt = salt)
 
         //then
         val findPresident = managerRepository.findById(savePresident.id).get()

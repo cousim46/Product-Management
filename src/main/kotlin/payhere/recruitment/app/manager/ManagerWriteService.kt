@@ -13,7 +13,7 @@ import java.util.*
 
 @Transactional
 @Service
-class PresidentWriteService(
+class ManagerWriteService(
     private val managerRepository: ManagerRepository,
     private val refreshTokenRepository: RefreshTokenRepository,
     private val bCryptPasswordEncoder: BCryptPasswordEncoder,

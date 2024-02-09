@@ -16,12 +16,12 @@ import javax.servlet.http.HttpServletResponse
 @RequestMapping("/api/president")
 @RestController
 class ManagerController(
-    private val presidentWriteService: PresidentWriteService,
+    private val managerWriteService: ManagerWriteService,
 ) {
 
     @PostMapping
     fun join(@RequestBody presidentCreate: PresidentCreate): CommonResponse {
-        presidentWriteService.create(
+        managerWriteService.create(
             phone = presidentCreate.phone,
             password = presidentCreate.password,
             salt = RandomNumber.create()
@@ -30,7 +30,7 @@ class ManagerController(
     }
     @PostMapping("/login")
     fun login(@RequestBody login: Longin, httpServletResponse: HttpServletResponse) : CommonResponse {
-        val loginToken: LoginToken = presidentWriteService.login(login.phone,login.password, Date())
+        val loginToken: LoginToken = managerWriteService.login(login.phone,login.password, Date())
         val cookie = Cookie("loginInfo",loginToken.access)
         httpServletResponse.addCookie(cookie)
         return CommonResponse.toResponse()
