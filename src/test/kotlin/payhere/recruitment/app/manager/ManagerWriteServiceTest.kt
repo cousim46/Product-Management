@@ -1,4 +1,4 @@
-package payhere.recruitment.app.president
+package payhere.recruitment.app.manager
 
 import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -6,10 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import payhere.recruitment.error.CommonException
-import payhere.recruitment.app.president.dto.request.RandomNumber
+import payhere.recruitment.app.manager.dto.request.RandomNumber
 
 @SpringBootTest
-class PresidentWriteServiceTest(
+class ManagerWriteServiceTest(
 ) {
     @Autowired
     lateinit var presidentWriteService: PresidentWriteService

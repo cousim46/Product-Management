@@ -1,4 +1,4 @@
-package payhere.recruitment.app.president.domain
+package payhere.recruitment.app.manager.domain
 
 
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.http.HttpStatus
 import payhere.recruitment.error.CommonException
-import payhere.recruitment.app.president.dto.request.RandomNumber
+import payhere.recruitment.app.manager.dto.request.RandomNumber
 
-class PresidentTest {
+class ManagerTest {
 
     @Test
     @DisplayName("핸드폰 번호가 11글자를 초과하면 예외가 발생한다.")
@@ -21,7 +21,7 @@ class PresidentTest {
 
         //when
         val errorCode = assertThrows<CommonException> {
-            President(
+            Manager(
                 phone = phone,
                 password = password,
                 salt = salt
@@ -43,7 +43,7 @@ class PresidentTest {
 
         //when
         val errorCode = assertThrows<CommonException> {
-            President(
+            Manager(
                 phone = phone,
                 password = password,
                 salt = salt
@@ -64,12 +64,12 @@ class PresidentTest {
         val salt = RandomNumber.create()
 
         //when
-        val president = President(phone = phone, password = password, salt = salt)
+        val manager = Manager(phone = phone, password = password, salt = salt)
 
         //then
-        assertEquals(phone, president.phone)
-        assertEquals(password, president.password)
-        assertEquals(salt, president.salt)
+        assertEquals(phone, manager.phone)
+        assertEquals(password, manager.password)
+        assertEquals(salt, manager.salt)
     }
 
 
@@ -83,7 +83,7 @@ class PresidentTest {
 
         //when
         val errorCode = assertThrows<CommonException> {
-            President(
+            Manager(
                 phone = phone,
                 password = password,
                 salt = salt
@@ -105,7 +105,7 @@ class PresidentTest {
 
         //when
         val errorCode = assertThrows<CommonException> {
-            President(
+            Manager(
                 phone = phone,
                 password = password,
                 salt = salt
@@ -127,11 +127,11 @@ class PresidentTest {
         val salt = RandomNumber.create()
 
         //when
-        val president = President(phone = phone, password = password, salt = salt)
+        val manager = Manager(phone = phone, password = password, salt = salt)
 
         //then
-        assertEquals(phone, president.phone)
-        assertEquals(password, president.password)
-        assertEquals(salt, president.salt)
+        assertEquals(phone, manager.phone)
+        assertEquals(password, manager.password)
+        assertEquals(salt, manager.salt)
     }
 }
