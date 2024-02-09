@@ -16,8 +16,7 @@ class RandomNumber {
     }
 }
 
-data class PresidentCreate(
-    @JsonProperty("phone")
+data class ManagerCreate(
     val phone: String,
     val password: String,
 ) {
