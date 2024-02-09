@@ -1,10 +1,7 @@
 package payhere.recruitment.token
 
 
-import io.jsonwebtoken.ExpiredJwtException
-import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
-import io.jsonwebtoken.UnsupportedJwtException
+import io.jsonwebtoken.*
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 import io.jsonwebtoken.security.SecurityException
@@ -13,7 +10,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
-import payhere.recruitment.app.president.PresidentRepository
+import payhere.recruitment.app.manager.ManagerRepository
 import payhere.recruitment.app.token.RefreshTokenRepository
 import payhere.recruitment.app.token.domain.RefreshToken
 import payhere.recruitment.error.CommonErrorCode.NOT_EXSISTS_INFO
@@ -29,7 +26,7 @@ import javax.servlet.http.HttpServletRequest
 
 @Component
 class TokenProvider(
-    private val presidentRepository: PresidentRepository,
+    private val managerRepository: ManagerRepository,
     private val refreshTokenRepository: RefreshTokenRepository,
     @Value("\${jwt.secret-key}")
     private val secretKey: String,
@@ -43,7 +40,7 @@ class TokenProvider(
         Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey))
     }
 
-    fun getToken(id: Long, now: Date): LoginToken {
+    fun getToken(id: Long, now: Date, role: String): LoginToken {
         val now: LocalDateTime = LocalDateTime.now()
         val nowTokenExpire = getExpireAt(now)
         val accessTokenTime: LocalDateTime = getTokenTime(now, ACCESS_TOKEN_EXPIRE_TIME.toLong())
@@ -54,8 +51,9 @@ class TokenProvider(
         val accessToken = createToken(
             id = id,
             tokenExpireTime = accessTokenExpire,
+            role = role
         )
-        var loginToken: LoginToken? = refreshTokenRepository.findByPresidentId(id)?.let {
+        var loginToken: LoginToken? = refreshTokenRepository.findByManagerId(id)?.let {
             val refreshTokenExpireAt = getExpireAt(it.expireAt)
             if (nowTokenExpire > refreshTokenExpireAt) {
                 throw CommonException(REFRESH_TOKEN_EXPIRE)
@@ -70,12 +68,13 @@ class TokenProvider(
             val refreshToken = createToken(
                 id = id,
                 tokenExpireTime = refreshTokenExpire,
+                role = role
             )
-            val president = presidentRepository.findByIdOrNull(id)
+            val manager = managerRepository.findByIdOrNull(id)
                 ?: throw CommonException(NOT_EXSISTS_INFO)
             val savedRefreshRefreshToken = refreshTokenRepository.save(
                 RefreshToken(
-                    president = president,
+                    manager = manager,
                     token = refreshToken,
                     expireAt = refreshTokenTime,
                 )
@@ -99,11 +98,11 @@ class TokenProvider(
     }
 
     fun getAuthentication(token: String): Authentication {
-        val president =
-            presidentRepository.findByIdOrNull(getAccount(token)) ?: throw CommonException(
+        val manager =
+            managerRepository.findByIdOrNull(getAccount(token)) ?: throw CommonException(
                 NOT_EXSISTS_INFO
             )
-        val loginUserDetail = LoginUserDetail(president.phone);
+        val loginUserDetail = LoginUserDetail(manager.phone, manager.position.name);
         return UsernamePasswordAuthenticationToken(loginUserDetail, "", loginUserDetail.authorities)
     }
 
@@ -118,12 +117,14 @@ class TokenProvider(
             return true;
         } catch (e: SecurityException) {
             e.printStackTrace()
-        } catch (e: ExpiredJwtException) {
-            return false
         } catch (e: UnsupportedJwtException) {
             e.printStackTrace()
         } catch (e: IllegalArgumentException) {
             e.printStackTrace()
+        }catch (e: ExpiredJwtException) {
+            return false
+        }catch (e: MalformedJwtException) {
+            return false
         }
         return false
     }
@@ -133,7 +134,7 @@ class TokenProvider(
     }
 
     //토큰 생성
-    private fun createToken(id: Long, tokenExpireTime: Long, role: String = ""): String {
+    private fun createToken(id: Long, tokenExpireTime: Long, role: String): String {
         return Jwts.builder()
             .setSubject(id.toString())
             .claim("auth", role)
