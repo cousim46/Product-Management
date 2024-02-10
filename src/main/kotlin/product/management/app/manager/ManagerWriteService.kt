@@ -38,6 +38,10 @@ class ManagerWriteService(
         return tokenProvider.getToken(id = president.id, now = now, role = president.position.name)
     }
 
+    fun logout(id: Long) {
+        refreshTokenRepository.deleteByManagerId(id)
+    }
+
     private fun encodePassword(salt: Int, password: String): String {
         return bCryptPasswordEncoder.encode(password + salt)
     }
