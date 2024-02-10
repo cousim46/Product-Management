@@ -5,10 +5,12 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import product.demo.app.common.CommonResponse
+import product.management.api.manager.dto.request.LoginInfo
 import product.management.api.manager.dto.request.Longin
 import product.management.api.manager.dto.request.ManagerCreate
 import product.management.api.manager.dto.request.RandomNumber
 import product.management.app.manager.ManagerWriteService
+import product.management.security.annotation.LoginUser
 import product.management.token.LoginToken
 import java.util.*
 import javax.servlet.http.Cookie
@@ -34,6 +36,11 @@ class ManagerController(
         val loginToken: LoginToken = managerWriteService.login(login.phone,login.password, Date())
         val cookie = Cookie("loginInfo",loginToken.access)
         httpServletResponse.addCookie(cookie)
+        return CommonResponse.toResponse()
+    }
+    @PostMapping("/logout")
+    fun logout(@LoginUser loginInfo: LoginInfo): CommonResponse {
+        managerWriteService.logout(loginInfo.id)
         return CommonResponse.toResponse()
     }
 }
