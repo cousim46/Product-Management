@@ -11,8 +11,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import product.management.app.manager.ManagerRepository
-import product.management.app.token.RefreshTokenRepository
-import product.management.app.token.domain.RefreshToken
+import product.management.app.token.TokenRepository
+import product.management.app.token.domain.Token
 import product.management.error.CommonErrorCode.NOT_EXSISTS_INFO
 import product.management.error.CommonErrorCode.REFRESH_TOKEN_EXPIRE
 import product.management.error.CommonException
@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest
 @Component
 class TokenProvider(
     private val managerRepository: ManagerRepository,
-    private val refreshTokenRepository: RefreshTokenRepository,
+    private val tokenRepository: TokenRepository,
     @Value("\${jwt.secret-key}")
     private val secretKey: String,
     @Value("\${jwt.access-token-expire-time}")
@@ -53,7 +53,7 @@ class TokenProvider(
             tokenExpireTime = accessTokenExpire,
             role = role
         )
-        var loginToken: LoginToken? = refreshTokenRepository.findByManagerId(id)?.let {
+        var loginToken: LoginToken? = tokenRepository.findByManagerId(id)?.let {
             val refreshTokenExpireAt = getExpireAt(it.expireAt)
             if (nowTokenExpire > refreshTokenExpireAt) {
                 throw CommonException(REFRESH_TOKEN_EXPIRE)
@@ -72,17 +72,18 @@ class TokenProvider(
             )
             val manager = managerRepository.findByIdOrNull(id)
                 ?: throw CommonException(NOT_EXSISTS_INFO)
-            val savedRefreshRefreshToken = refreshTokenRepository.save(
-                RefreshToken(
+            val savedRefreshToken = tokenRepository.save(
+                Token(
                     manager = manager,
-                    token = refreshToken,
+                    refresh = refreshToken,
                     expireAt = refreshTokenTime,
+                    access = accessToken
                 )
             )
             loginToken = LoginToken(
                 access = accessToken,
                 accessExpireAt = Date(accessTokenExpire),
-                id = savedRefreshRefreshToken.id
+                id = savedRefreshToken.id
             )
         }
         return loginToken
@@ -97,11 +98,14 @@ class TokenProvider(
         return accessTokenTime
     }
 
-    fun getAuthentication(token: String): Authentication {
+    fun getAuthentication(token: String): Authentication? {
         val manager =
             managerRepository.findByIdOrNull(getAccount(token)) ?: throw CommonException(
                 NOT_EXSISTS_INFO
             )
+        if(!tokenRepository.existsByManagerId(managerId = manager.id)) {
+            return null
+        }
         val loginUserDetail = LoginUserDetail(manager.phone, manager.position.name);
         return UsernamePasswordAuthenticationToken(loginUserDetail, "", loginUserDetail.authorities)
     }

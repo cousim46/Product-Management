@@ -8,9 +8,10 @@ import javax.persistence.Entity
 import javax.persistence.OneToOne
 
 @Entity
-class RefreshToken(
+class Token(
     @Column(nullable = false)
-    val token: String,
+    val refresh: String,
+    val access: String,
     @OneToOne
     val manager: Manager,
     val expireAt: LocalDateTime,
