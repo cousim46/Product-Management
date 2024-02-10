@@ -28,9 +28,9 @@ internal fun ProductRepository.create(
     name: String = "아메리카노",
     explain: String = "커피입니다.",
     expirationDate: LocalDateTime = LocalDateTime.now(),
-    barcode: String,
+    barcode: String = "880445ICM",
     size: Size = Size.SMALL,
-    companyInfo: CompanyInfo,
+    companyInfo: CompanyInfo = CompanyInfo(code = "880", productIdentifier = "ICM", manufacturerCode = "445" ),
     manager: Manager,
 ): Product = this.saveAndFlush(
     Product(
