@@ -9,7 +9,7 @@ data class ProductInfo(
     val category: String,
     val price: Int,
     val name: String,
-    val explain: String,
+    val content: String,
     val barcode: String,
     val expirationDate: LocalDateTime,
     val size: Size,
@@ -29,9 +29,9 @@ data class ProductInfo(
                     manufacturerCode = productCreate.manufacturerCode,
                     productIdentifier = productCreate.productIdentifier
                 ),
-                explain = productCreate.explain,
+                content = productCreate.content,
                 expirationDate = productCreate.expirationDate,
-                size = productCreate.size,
+                size = Size.valueOf(productCreate.size),
                 prefix = productCreate.prefix,
                 productIdentifier = productCreate.productIdentifier,
                 manufacturerCode = productCreate.manufacturerCode
