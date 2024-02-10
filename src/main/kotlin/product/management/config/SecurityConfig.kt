@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import product.management.app.manager.enums.Position
 import product.management.security.LoginFilter
 import product.management.security.TokenAccessDeniedHandler
 import product.management.security.annotation.TokenAuthenticationEntryPoint
@@ -38,6 +39,7 @@ class SecurityConfig(
             .accessDeniedHandler(tokenAccessDeniedHandler)
             .and()
             .authorizeRequests()
+            .antMatchers("/api/product/**").hasAnyAuthority(Position.PRESIDENT.name)
             .antMatchers("/**")
             .permitAll()
             .anyRequest().authenticated()
