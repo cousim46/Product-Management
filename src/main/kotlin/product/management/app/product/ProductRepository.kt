@@ -5,4 +5,6 @@ import product.management.app.product.domain.Product
 
 interface ProductRepository : JpaRepository<Product, Long> {
     fun existsByBarcode(barcode: String) : Boolean
+
+    fun findByIdAndManagerId(productId: Long, managerId: Long): Product?
 }
