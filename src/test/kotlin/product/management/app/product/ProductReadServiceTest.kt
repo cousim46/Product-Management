@@ -62,5 +62,25 @@ class ProductReadServiceTest(
         assertEquals("존재하지 않는 상품정보입니다.", errorCode.message)
         assertEquals(HttpStatus.NOT_FOUND, errorCode.status)
     }
+
+    @Test
+    @DisplayName("상품을 상세조회 하려는 사장님이 등록한 상품일 경우 상품정보를 확인할 수 있다.")
+    fun getDetail() {
+        //given
+        val manager = managerRepository.create()
+        val product = productRepository.create(manager = manager)
+
+        //when
+        val findProduct = productReadService.getDetail(managerId = manager.id, productId = product.id)
+
+        //then
+        assertEquals(findProduct.id, product.id)
+        assertEquals(findProduct.name, product.name)
+        assertEquals(findProduct.price, product.price)
+        assertEquals(findProduct.content, product.content)
+        assertEquals(findProduct.barcode, product.barcode)
+        assertEquals(findProduct.size, product.size)
+        assertEquals(findProduct.expirationDate, product.expirationDate)
+    }
 }
 
