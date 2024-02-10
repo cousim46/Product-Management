@@ -1,13 +1,14 @@
-package product.management.app.manager
+package product.management.api.manager
 
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import product.demo.app.common.CommonResponse
-import product.management.app.manager.dto.request.Longin
-import product.management.app.manager.dto.request.ManagerCreate
-import product.management.app.manager.dto.request.RandomNumber
+import product.management.api.manager.dto.request.Longin
+import product.management.api.manager.dto.request.ManagerCreate
+import product.management.api.manager.dto.request.RandomNumber
+import product.management.app.manager.ManagerWriteService
 import product.management.token.LoginToken
 import java.util.*
 import javax.servlet.http.Cookie

@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import product.management.error.CommonException
-import product.management.app.manager.dto.request.RandomNumber
+import product.management.api.manager.dto.request.RandomNumber
 
 @SpringBootTest
 class ManagerWriteServiceTest(

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.http.HttpStatus
 import product.management.error.CommonException
-import product.management.app.manager.dto.request.RandomNumber
+import product.management.api.manager.dto.request.RandomNumber
 
 class ManagerTest {
 

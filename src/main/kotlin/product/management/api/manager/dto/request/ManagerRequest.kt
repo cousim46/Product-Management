@@ -1,4 +1,4 @@
-package product.management.app.manager.dto.request
+package product.management.api.manager.dto.request
 
 import product.management.error.CommonErrorCode.*
 import product.management.error.CommonException

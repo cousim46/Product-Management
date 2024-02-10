@@ -7,7 +7,7 @@ import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
 import product.management.app.manager.ManagerRepository
-import product.management.app.manager.dto.request.LoginInfo
+import product.management.api.manager.dto.request.LoginInfo
 import product.management.error.CommonErrorCode
 import product.management.error.CommonException
 import product.management.security.annotation.LoginUser
