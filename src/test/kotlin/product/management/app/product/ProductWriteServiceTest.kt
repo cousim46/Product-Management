@@ -55,6 +55,21 @@ class ProductWriteServiceTest(
         assertEquals(HttpStatus.CONFLICT, errorCode.status)
     }
 
+    @Test
+    @DisplayName("상품을 등록하려는 사장님이 존재하지 않으면 예외가 발생한다.")
+    fun occurNotExistsManagerInfoException() {
+        val productInfo = createProductInfo()
+        val managerId: Long = -1
+
+        //when
+        val errorCode = assertThrows<CommonException> {
+            productWriteService.create(managerId, productInfo)
+        }.errorCode
+
+        //then
+        assertEquals("존재하지 않은 정보입니다.", errorCode.message)
+        assertEquals(HttpStatus.NOT_FOUND, errorCode.status)
+    }
 
     private fun createProductInfo(
         category: String = "음료",
