@@ -1,5 +1,6 @@
 package product.management.api.product.dto.request
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import product.management.app.product.enums.Size
 import product.management.error.CommonErrorCode.NOT_EXSISTS_PRODUCT_SIZE
 import product.management.error.CommonException
@@ -9,9 +10,10 @@ data class ProductApiCreate(
     val category: String,
     val price: Int,
     val name: String,
-    val explain: String,
+    val content: String,
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     val expirationDate: LocalDateTime,
-    val size: Size,
+    val size: String,
     val prefix: String,
     val productIdentifier: String,
     val manufacturerCode: String,
