@@ -7,6 +7,7 @@ import product.management.app.manager.ManagerRepository
 import product.management.app.product.domain.CompanyInfo
 import product.management.app.product.domain.Product
 import product.management.app.product.dto.ProductInfo
+import product.management.app.product.utils.LanguageSeparation
 import product.management.error.CommonErrorCode
 import product.management.error.CommonErrorCode.ALREADY_EXSISTS_BARCODE
 import product.management.error.CommonException
@@ -40,7 +41,8 @@ class ProductWriteService(
                 size = productInfo.size,
                 companyInfo = companyInfo,
                 manager = manager,
-                barcode = productInfo.barcode
+                barcode = productInfo.barcode,
+                namePrefix = LanguageSeparation.extractPrefix(productInfo.name)
             )
         )
         return product.id
