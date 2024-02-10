@@ -13,7 +13,7 @@ class Product(
     @Column(nullable = false)
     val price: Int,
     @Column(nullable = false)
-    val name: String,
+    var name: String,
     @Column(nullable = false)
     val content: String,
     @Column(nullable = false)
@@ -25,6 +25,7 @@ class Product(
     val size: Size,
     @Embedded
     val companyInfo: CompanyInfo,
+    var namePrefix: String,
     @ManyToOne(fetch = FetchType.LAZY)
     val manager: Manager,
 ) : BaseEntity() {
