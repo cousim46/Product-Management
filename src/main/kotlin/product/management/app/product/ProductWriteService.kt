@@ -35,7 +35,7 @@ class ProductWriteService(
                 category = productInfo.category,
                 price = productInfo.price,
                 name = productInfo.name,
-                content = productInfo.explain,
+                content = productInfo.content,
                 expirationDate = productInfo.expirationDate,
                 size = productInfo.size,
                 companyInfo = companyInfo,
