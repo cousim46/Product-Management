@@ -10,15 +10,15 @@ import product.management.api.manager.dto.request.RandomNumber
 
 @SpringBootTest
 class ManagerWriteServiceTest(
+    @Autowired
+    private val managerWriteService: ManagerWriteService,
+    @Autowired
+    private val managerRepository: ManagerRepository,
+    @Autowired
+    private val bCryptPasswordEncoder: BCryptPasswordEncoder,
 ) {
-    @Autowired
-    lateinit var managerWriteService: ManagerWriteService
-    @Autowired
-    lateinit var managerRepository: ManagerRepository
-    @Autowired
-    lateinit var bCryptPasswordEncoder: BCryptPasswordEncoder
 
-    @AfterEach
+    @BeforeEach
     fun deleteAll() {
         managerRepository.deleteAll()
     }
@@ -33,7 +33,7 @@ class ManagerWriteServiceTest(
 
         //when
         val errorCode = assertThrows<CommonException> {
-            managerWriteService.create(phone = phone, password = password, salt =salt)
+            managerWriteService.create(phone = phone, password = password, salt = salt)
         }.errorCode
 
         //then
@@ -51,7 +51,7 @@ class ManagerWriteServiceTest(
 
         //when
         val errorCode = assertThrows<CommonException> {
-            managerWriteService.create(phone = phone, password = password, salt =salt)
+            managerWriteService.create(phone = phone, password = password, salt = salt)
         }.errorCode
 
         //then
@@ -86,7 +86,7 @@ class ManagerWriteServiceTest(
 
         //when
         val errorCode = assertThrows<CommonException> {
-            managerWriteService.create(phone = phone, password = password, salt =salt)
+            managerWriteService.create(phone = phone, password = password, salt = salt)
         }.errorCode
 
         //then
@@ -104,7 +104,7 @@ class ManagerWriteServiceTest(
 
         //when
         val errorCode = assertThrows<CommonException> {
-            managerWriteService.create(phone = phone, password = password, salt =salt)
+            managerWriteService.create(phone = phone, password = password, salt = salt)
         }.errorCode
 
         //then
@@ -122,7 +122,7 @@ class ManagerWriteServiceTest(
         val salt = RandomNumber.create()
 
         //when
-        val president = managerWriteService.create(phone = phone, password = password, salt =salt)
+        val president = managerWriteService.create(phone = phone, password = password, salt = salt)
 
         //then
         Assertions.assertEquals(phone, president.phone)
@@ -134,12 +134,13 @@ class ManagerWriteServiceTest(
     @DisplayName("솔트암호화로 사장님이 입력한 비밀번호와 회원가입된 비밀번호가 일치하지 않는다.")
     fun encodePasswordNotEqualInputPassword() {
         //given
-        val phone = "010123412341"
+        val phone = "01012341234"
         val password = "product"
         val salt = RandomNumber.create()
 
         //when
-        val savePresident = managerWriteService.create(phone = phone, password = password, salt = salt)
+        val savePresident =
+            managerWriteService.create(phone = phone, password = password, salt = salt)
 
         //then
         val findPresident = managerRepository.findById(savePresident.id).get()
@@ -150,16 +151,22 @@ class ManagerWriteServiceTest(
     @DisplayName("솔트암호화로 사장님이 입력한 비밀번호와 salt 합친 값과 회원가입된 비밀번호가 일치한다.")
     fun encodePasswordEqualInputPassword() {
         //given
-        val phone = "010123412341"
+        val phone = "01012341234"
         val password = "product"
         val salt = RandomNumber.create()
         val saltRawPassword = password + salt
 
         //when
-        val savePresident = managerWriteService.create(phone = phone, password = password, salt = salt)
+        val savePresident =
+            managerWriteService.create(phone = phone, password = password, salt = salt)
 
         //then
         val findPresident = managerRepository.findById(savePresident.id).get()
-        Assertions.assertTrue(bCryptPasswordEncoder.matches(saltRawPassword, findPresident.password))
+        Assertions.assertTrue(
+            bCryptPasswordEncoder.matches(
+                saltRawPassword,
+                findPresident.password
+            )
+        )
     }
 }
