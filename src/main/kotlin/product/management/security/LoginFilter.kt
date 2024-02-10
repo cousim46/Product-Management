@@ -14,12 +14,12 @@ class LoginFilter(
 ) : OncePerRequestFilter() {
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         tokenProvider.resolveToken(request = request as? HttpServletRequest?)?.also {
-            val loginToken = it.split(" ")[1]
-            if(!it.toLowerCase().startsWith("bearer ") || !tokenProvider.validateToken(loginToken)) {
+            val loginToken = it.split(" ")
+            if(loginToken.size != 2 || !it.toLowerCase().startsWith("bearer ") || !tokenProvider.validateToken(loginToken[1])) {
                 tokenAuthenticationEntryPoint.commence(request,response = response, null)
                 return
             }
-            val authentication = tokenProvider.getAuthentication(loginToken)
+            val authentication = tokenProvider.getAuthentication(loginToken[1])
             SecurityContextHolder.getContext().authentication = authentication
         }
         filterChain.doFilter(request, response)
