@@ -71,6 +71,28 @@ class ProductWriteServiceTest(
         assertEquals(HttpStatus.NOT_FOUND, errorCode.status)
     }
 
+    @Test
+    @DisplayName("사장님이 상품정보를 입력하면 상품이 생성된다.")
+    fun createPresidentInputProductInfo() {
+        //given
+        val manager = managerRepository.create()
+        val productInfo = createProductInfo()
+        //when
+        val savedProductId = productWriteService.create(id = manager.id, productInfo = productInfo)
+
+        //then
+        val findProduct = productRepository.findById(savedProductId).get()
+        assertEquals(productInfo.barcode, findProduct.barcode)
+        assertEquals(manager.id, findProduct.returnManagerId())
+        assertEquals(productInfo.name, findProduct.name)
+        assertEquals(productInfo.category, findProduct.category)
+        assertEquals(productInfo.price, findProduct.price)
+        assertEquals(productInfo.explain, findProduct.explain)
+        assertEquals(productInfo.explain, findProduct.explain)
+        assertEquals(productInfo.size, findProduct.size)
+
+    }
+
     private fun createProductInfo(
         category: String = "음료",
         price: Int = 5000,
