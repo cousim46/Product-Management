@@ -9,6 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import product.management.app.manager.enums.Position
+import product.management.app.token.TokenRepository
 import product.management.security.LoginFilter
 import product.management.security.TokenAccessDeniedHandler
 import product.management.security.annotation.TokenAuthenticationEntryPoint
@@ -20,6 +21,7 @@ class SecurityConfig(
     private val tokenProvider: TokenProvider,
     private val tokenAccessDeniedHandler: TokenAccessDeniedHandler,
     private val tokenAuthenticationEntryPoint: TokenAuthenticationEntryPoint,
+    private val tokenRepository: TokenRepository,
 ) : WebSecurityConfigurerAdapter() {
 
     @Bean
@@ -33,7 +35,7 @@ class SecurityConfig(
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            .addFilterBefore(LoginFilter(tokenProvider,tokenAuthenticationEntryPoint), UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterBefore(LoginFilter(tokenProvider,tokenAuthenticationEntryPoint,tokenRepository), UsernamePasswordAuthenticationFilter::class.java)
             .exceptionHandling()
             .authenticationEntryPoint(tokenAuthenticationEntryPoint)
             .accessDeniedHandler(tokenAccessDeniedHandler)
