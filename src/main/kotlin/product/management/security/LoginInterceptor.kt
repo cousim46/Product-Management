@@ -21,8 +21,8 @@ class LoginInterceptor(
 
     override fun resolveArgument(parameter: MethodParameter, mavContainer: ModelAndViewContainer?, webRequest: NativeWebRequest, binderFactory: WebDataBinderFactory?): Any? {
         val authentication = SecurityContextHolder.getContext().authentication
-        val president = managerRepository.findByPhone(authentication.name)
+        val manager = managerRepository.findByPhone(authentication.name)
             ?: throw CommonException(CommonErrorCode.ACCESS_TOKEN_EXPIRE)
-        return LoginInfo(president.id)
+        return LoginInfo(manager.id)
     }
 }
