@@ -43,5 +43,24 @@ class ProductReadServiceTest(
         assertEquals("존재하지 않은 정보입니다.", errorCode.message)
         assertEquals(HttpStatus.NOT_FOUND, errorCode.status)
     }
+
+
+    @Test
+    @DisplayName("상품을 상세조회 하려는 사장님이 등록한 상품이 아닌 경우 예외가 발생한다.")
+    fun occurSelectProductInfoNotEqualsManagerAndProduct() {
+        //given
+        val manager1 = managerRepository.create()
+        val manager2 = managerRepository.create()
+        val product = productRepository.create(manager = manager2)
+
+        //when
+        val errorCode = org.junit.jupiter.api.assertThrows<CommonException> {
+            productReadService.getDetail(managerId = manager1.id, productId =  product.id)
+        }.errorCode
+
+        //then
+        assertEquals("존재하지 않는 상품정보입니다.", errorCode.message)
+        assertEquals(HttpStatus.NOT_FOUND, errorCode.status)
+    }
 }
 
