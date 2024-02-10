@@ -93,6 +93,21 @@ class ProductWriteServiceTest(
 
     }
 
+    @Test
+    @DisplayName("존재하지 않는 상품 사이즈에 대한 상품을 등록할 경우 예외가 발생한다.")
+    fun occurNotExistsSizeException() {
+        val size: String = "M"
+
+        //when
+        val errorCode = assertThrows<CommonException> {
+            createProductInfo(size = size)
+        }.errorCode
+
+        //then
+        assertEquals("잘못된 상품 사이즈 입니다.", errorCode.message)
+        assertEquals(HttpStatus.BAD_REQUEST, errorCode.status)
+    }
+
     private fun createProductInfo(
         category: String = "음료",
         price: Int = 5000,
