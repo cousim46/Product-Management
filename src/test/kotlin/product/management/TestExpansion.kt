@@ -6,6 +6,7 @@ import product.management.app.product.ProductRepository
 import product.management.app.product.domain.CompanyInfo
 import product.management.app.product.domain.Product
 import product.management.app.product.enums.Size
+import product.management.app.product.utils.LanguageSeparation
 import java.time.LocalDateTime
 
 
@@ -42,6 +43,6 @@ internal fun ProductRepository.create(
         size = size,
         companyInfo = companyInfo,
         manager= manager,
-
+        namePrefix = LanguageSeparation.extractPrefix(name)
         ),
 )
