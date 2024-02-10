@@ -4,4 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 import product.management.app.product.domain.Product
 
 interface ProductRepository : JpaRepository<Product, Long> {
+    fun existsByBarcode(barcode: String) : Boolean
 }
