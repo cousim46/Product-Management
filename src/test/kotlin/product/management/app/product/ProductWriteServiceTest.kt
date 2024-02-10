@@ -87,8 +87,8 @@ class ProductWriteServiceTest(
         assertEquals(productInfo.name, findProduct.name)
         assertEquals(productInfo.category, findProduct.category)
         assertEquals(productInfo.price, findProduct.price)
-        assertEquals(productInfo.explain, findProduct.content)
-        assertEquals(productInfo.explain, findProduct.content)
+        assertEquals(productInfo.content, findProduct.content)
+        assertEquals(productInfo.content, findProduct.content)
         assertEquals(productInfo.size, findProduct.size)
 
     }
@@ -102,14 +102,14 @@ class ProductWriteServiceTest(
         prefix: String = "880",
         productIdentifier: String = "ICM",
         manufacturerCode: String = "1234",
-        size: Size = Size.SMALL,
+        size: String = Size.SMALL.name,
     ): ProductInfo {
         return ProductInfo.of(
             ProductApiCreate(
                 category = category,
                 price = price,
                 name = name,
-                explain = explain,
+                content = explain,
                 expirationDate = expirationDate,
                 size = size,
                 prefix = prefix,
