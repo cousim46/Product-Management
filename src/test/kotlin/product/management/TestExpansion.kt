@@ -36,7 +36,7 @@ internal fun ProductRepository.create(
         category = category,
         price = price,
         name = name,
-        explain = explain,
+        content = explain,
         expirationDate = expirationDate,
         barcode = barcode,
         size = size,

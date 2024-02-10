@@ -87,8 +87,8 @@ class ProductWriteServiceTest(
         assertEquals(productInfo.name, findProduct.name)
         assertEquals(productInfo.category, findProduct.category)
         assertEquals(productInfo.price, findProduct.price)
-        assertEquals(productInfo.explain, findProduct.explain)
-        assertEquals(productInfo.explain, findProduct.explain)
+        assertEquals(productInfo.explain, findProduct.content)
+        assertEquals(productInfo.explain, findProduct.content)
         assertEquals(productInfo.size, findProduct.size)
 
     }

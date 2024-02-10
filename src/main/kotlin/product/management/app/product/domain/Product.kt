@@ -15,7 +15,7 @@ class Product(
     @Column(nullable = false)
     val name: String,
     @Column(nullable = false)
-    val explain: String,
+    val content: String,
     @Column(nullable = false)
     val expirationDate: LocalDateTime,
     @Column(nullable = false, unique = true)
