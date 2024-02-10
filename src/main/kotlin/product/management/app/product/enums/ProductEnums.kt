@@ -4,8 +4,12 @@ enum class Size {
     SMALL, LARGE;
 
     companion object {
-        fun contains(size: Size) : Boolean {
-            return size in Size.values()
+        fun contains(size: String) : Boolean {
+            val value = entries.find { it.name == size }
+            if(value == null ) {
+                return false
+            }
+            return true
         }
     }
 }
