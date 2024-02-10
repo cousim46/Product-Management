@@ -2,7 +2,7 @@ package product.management.api.product.dto.request
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import product.management.app.product.enums.Size
-import product.management.error.CommonErrorCode.NOT_EXSISTS_PRODUCT_SIZE
+import product.management.error.CommonErrorCode.BAD_REQUEST_PRODUCT_SIZE
 import product.management.error.CommonException
 import java.time.LocalDateTime
 
@@ -20,7 +20,7 @@ data class ProductApiCreate(
 ) {
     init {
         require(Size.contains(size)) {
-            throw CommonException(NOT_EXSISTS_PRODUCT_SIZE)
+            throw CommonException(BAD_REQUEST_PRODUCT_SIZE)
         }
     }
 }
