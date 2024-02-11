@@ -6,7 +6,8 @@ import org.springframework.transaction.annotation.Transactional
 import product.management.app.manager.ManagerRepository
 import product.management.app.product.domain.CompanyInfo
 import product.management.app.product.domain.Product
-import product.management.app.product.dto.ProductInfo
+import product.management.app.product.dto.ProductCreate
+import product.management.app.product.dto.ProductUpdateInfo
 import product.management.app.product.utils.LanguageSeparation
 import product.management.error.CommonErrorCode
 import product.management.error.CommonErrorCode.ALREADY_EXSISTS_BARCODE
@@ -18,37 +19,35 @@ class ProductWriteService(
     private val productRepository: ProductRepository,
     private val managerRepository: ManagerRepository,
 ) {
-    fun create(id: Long, productInfo: ProductInfo) : Long {
-        val manager = managerRepository.findByIdOrNull(id)
+    fun create(managerId: Long, productCreate: ProductCreate): Long {
+        val manager = managerRepository.findByIdOrNull(managerId)
             ?: throw CommonException(CommonErrorCode.NOT_EXSISTS_INFO)
 
-        require(!productRepository.existsByBarcode(productInfo.barcode)) {
+        require(!productRepository.existsByBarcode(productCreate.barcode)) {
             throw CommonException(ALREADY_EXSISTS_BARCODE)
         }
-        val companyInfo = CompanyInfo(
-            code = productInfo.prefix,
-            manufacturerCode = productInfo.manufacturerCode,
-            productIdentifier = productInfo.productIdentifier
+        val companyInfo = createCompanyInfo(
+            code = productCreate.prefix, manufacturer = productCreate.manufacturerCode,
+            productIdentifier = productCreate.productIdentifier
         )
 
         val product = productRepository.save(
             Product(
-                category = productInfo.category,
-                price = productInfo.price,
-                name = productInfo.name,
-                content = productInfo.content,
-                expirationDate = productInfo.expirationDate,
-                size = productInfo.size,
+                category = productCreate.category,
+                price = productCreate.price,
+                name = productCreate.name,
+                content = productCreate.content,
+                expirationDate = productCreate.expirationDate,
+                size = productCreate.size,
                 companyInfo = companyInfo,
                 manager = manager,
-                barcode = productInfo.barcode,
-                namePrefix = LanguageSeparation.extractPrefix(productInfo.name),
-                cost = productInfo.cost
+                barcode = productCreate.barcode,
+                namePrefix = LanguageSeparation.extractPrefix(productCreate.name),
+                cost = productCreate.cost
             )
         )
         return product.id
     }
-
     fun delete(productId: Long, managerId: Long) {
         val manager = managerRepository.findByIdOrNull(managerId) ?: throw CommonException(
             CommonErrorCode.NOT_EXSISTS_INFO
@@ -56,7 +55,21 @@ class ProductWriteService(
         val product =
             productRepository.findByIdAndManagerId(productId = productId, managerId = manager.id)
                 ?: throw CommonException(
-                    CommonErrorCode.NOT_EXSISTS_PRODUCT_INFO)
+                    CommonErrorCode.NOT_EXSISTS_PRODUCT_INFO
+                )
         productRepository.deleteByIdAndManagerId(productId = product.id, managerId = manager.id)
     }
+
+    private fun createCompanyInfo(
+        code: String,
+        manufacturer: String,
+        productIdentifier: String
+    ): CompanyInfo {
+        return CompanyInfo(
+            code = code,
+            manufacturerCode = manufacturer,
+            productIdentifier = productIdentifier
+        )
+    }
+
 }
