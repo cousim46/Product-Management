@@ -536,10 +536,16 @@ class GlobalExceptionProcessor {
     ): ResponseEntity<CommonResponse> {
         return CommonExceptionResponse.toResponse(errorCode = commonException.errorCode)
     }
+
+  @ExceptionHandler(MissingKotlinParameterException::class)
+  fun notNullExceptionResponse(e: MissingKotlinParameterException): ResponseEntity<CommonResponse> {
+    return CommonExceptionResponse.toNotNullableResponse("${e.path[0].fieldName} 필수로 입력해야합니다.")
+  }
 }
 ```
 ### 설명
-- RestControllerAdvice를 사용하여 런타임시 발생하는 예외에 대해 커스텀 예외를 만들고 전역적으로 처리할 수 있게 구현하였습니다. 
+- RestControllerAdvice를 사용하여 런타임시 발생하는 예외에 대해 커스텀 예외를 만들고 전역적으로 처리할 수 있게 구현하였습니다.
+- NotNull 특성을 가진 필드의 값이 null로 들어왔을때에 대한 예외처리도 추가적으로 구현하였습니다.
 
 
 ## api, app 패키지
@@ -636,4 +642,6 @@ class Barcode {
   - 제조사 코드 : 제품을 제조하는 회사 코드
   - 제품식별자 : 제품의 고유한 코드값
   - 검증 숫자 : 기타 숫자들의 유효성 확인값
+
+
 
