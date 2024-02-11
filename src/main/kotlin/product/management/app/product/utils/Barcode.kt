@@ -4,11 +4,11 @@ class Barcode {
 
     companion object {
         fun create(
-            prefix: String,
+            code: String,
             manufacturerCode: String,
             productIdentifier: String
         ): String {
-            val barcodeWithoutCheckDigit = prefix + manufacturerCode + productIdentifier
+            val barcodeWithoutCheckDigit = code + manufacturerCode + productIdentifier
             val checkDigit = calculateCheckDigit(barcodeWithoutCheckDigit)
             return barcodeWithoutCheckDigit + checkDigit
         }
