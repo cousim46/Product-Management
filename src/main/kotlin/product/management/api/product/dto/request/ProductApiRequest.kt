@@ -24,3 +24,7 @@ data class ProductApiCreate(
         }
     }
 }
+
+data class Search(
+    val keyword: String?
+)
