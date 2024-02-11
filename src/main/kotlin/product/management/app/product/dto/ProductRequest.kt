@@ -41,3 +41,40 @@ data class ProductCreate(
         }
     }
 }
+
+data class ProductUpdate(
+    val category: String,
+    val price: Long,
+    val name: String,
+    val content: String,
+    val barcode: String,
+    val expirationDate: LocalDateTime,
+    val size: Size,
+    val prefix: String,
+    val productIdentifier: String,
+    val manufacturerCode: String,
+    val cost: Long,
+) {
+    companion object {
+        fun of(productApiUpdate: ProductApiUpdate): ProductUpdate {
+            return ProductUpdate(
+                category = productApiUpdate.category,
+                price = productApiUpdate.price,
+                name = productApiUpdate.name,
+                barcode = Barcode.create(
+                    prefix = productApiUpdate.prefix,
+                    manufacturerCode = productApiUpdate.manufacturerCode,
+                    productIdentifier = productApiUpdate.productIdentifier
+                ),
+                content = productApiUpdate.content,
+                expirationDate = productApiUpdate.expirationDate,
+                size = Size.valueOf(productApiUpdate.size),
+                prefix = productApiUpdate.prefix,
+                productIdentifier = productApiUpdate.productIdentifier,
+                manufacturerCode = productApiUpdate.manufacturerCode,
+                cost = productApiUpdate.cost
+            )
+        }
+
+    }
+}
