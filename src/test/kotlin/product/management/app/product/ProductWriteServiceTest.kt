@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus
 import product.management.api.product.dto.request.ProductApiCreate
 import product.management.app.manager.ManagerRepository
 import product.management.app.product.domain.CompanyInfo
-import product.management.app.product.dto.ProductInfo
+import product.management.app.product.dto.ProductCreate
 import product.management.app.product.enums.Size
 import product.management.create
 import product.management.error.CommonException
@@ -79,7 +79,7 @@ class ProductWriteServiceTest(
         val manager = managerRepository.create()
         val productInfo = createProductInfo()
         //when
-        val savedProductId = productWriteService.create(id = manager.id, productInfo = productInfo)
+        val savedProductId = productWriteService.create(managerId = manager.id, productCreate = productInfo)
 
         //then
         val findProduct = productRepository.findById(savedProductId).get()
@@ -164,7 +164,7 @@ class ProductWriteServiceTest(
 
     private fun createProductInfo(
         category: String = "음료",
-        price: Int = 5000,
+        price: Long = 5000,
         name: String = "아메리카노",
         explain: String = "커피입니다.",
         expirationDate: LocalDateTime = LocalDateTime.now(),
@@ -173,8 +173,8 @@ class ProductWriteServiceTest(
         manufacturerCode: String = "1234",
         size: String = Size.SMALL.name,
         cost: Long = 1000
-    ): ProductInfo {
-        return ProductInfo.of(
+    ): ProductCreate {
+        return ProductCreate.of(
             ProductApiCreate(
                 category = category,
                 price = price,
