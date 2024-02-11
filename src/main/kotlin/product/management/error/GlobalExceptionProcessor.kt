@@ -15,4 +15,9 @@ class GlobalExceptionProcessor {
     ): ResponseEntity<CommonResponse> {
         return CommonExceptionResponse.toResponse(errorCode = commonException.errorCode)
     }
+
+    @ExceptionHandler(MissingKotlinParameterException::class)
+    fun notNullExceptionResponse(e: MissingKotlinParameterException): ResponseEntity<CommonResponse> {
+        return CommonExceptionResponse.toNotNullableResponse("${e.path[0].fieldName} 필수로 입력해야합니다.")
+    }
 }
