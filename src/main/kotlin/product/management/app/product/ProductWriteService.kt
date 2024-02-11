@@ -7,7 +7,7 @@ import product.management.app.manager.ManagerRepository
 import product.management.app.product.domain.CompanyInfo
 import product.management.app.product.domain.Product
 import product.management.app.product.dto.ProductCreate
-import product.management.app.product.dto.ProductUpdateInfo
+import product.management.app.product.dto.ProductUpdate
 import product.management.app.product.utils.LanguageSeparation
 import product.management.error.CommonErrorCode
 import product.management.error.CommonErrorCode.ALREADY_EXSISTS_BARCODE
@@ -58,6 +58,38 @@ class ProductWriteService(
                     CommonErrorCode.NOT_EXSISTS_PRODUCT_INFO
                 )
         productRepository.deleteByIdAndManagerId(productId = product.id, managerId = manager.id)
+    }
+
+    fun update(managerId: Long, productId: Long, productUpdate: ProductUpdate) {
+        val manager = managerRepository.findByIdOrNull(managerId)
+            ?: throw CommonException(CommonErrorCode.NOT_EXSISTS_INFO)
+        val product =
+            productRepository.findByIdAndManagerId(productId = productId, managerId = manager.id)
+                ?: throw CommonException(
+                    CommonErrorCode.NOT_EXSISTS_PRODUCT_INFO
+                )
+        if (productUpdate.barcode != product.barcode) {
+            if (productRepository.existsByBarcode(productUpdate.barcode)) {
+                throw CommonException(ALREADY_EXSISTS_BARCODE)
+            }
+        }
+        val companyInfo = createCompanyInfo(
+            code = productUpdate.prefix, manufacturer = productUpdate.manufacturerCode,
+            productIdentifier = productUpdate.productIdentifier
+        )
+
+        product.update(
+            category = productUpdate.category,
+            price = productUpdate.price,
+            name = productUpdate.name,
+            content = productUpdate.content,
+            expirationDate = productUpdate.expirationDate,
+            size = productUpdate.size,
+            companyInfo = companyInfo,
+            barcode = productUpdate.barcode,
+            namePrefix = LanguageSeparation.extractPrefix(productUpdate.name),
+            cost = productUpdate.cost
+        )
     }
 
     private fun createCompanyInfo(
