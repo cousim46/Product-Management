@@ -37,4 +37,10 @@ class ProductController(
         val data = Data.of(ProductDetailInfo.toResponse(product))
         return CommonResponse.toResponse(data = data)
     }
+
+    @DeleteMapping("/{product-id}")
+    fun delete(@LoginUser loginInfo: LoginInfo, @PathVariable("product-id") productId: Long): CommonResponse {
+        productWriteService.delete(productId = productId, managerId = loginInfo.id)
+        return CommonResponse.toResponse()
+    }
 }
