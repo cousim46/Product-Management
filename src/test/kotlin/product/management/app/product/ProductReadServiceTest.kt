@@ -7,8 +7,10 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.domain.Slice
 import org.springframework.http.HttpStatus
 import product.management.app.manager.ManagerRepository
+import product.management.app.product.domain.Product
 import product.management.create
 import product.management.error.CommonException
 
@@ -27,6 +29,7 @@ class ProductReadServiceTest(
         productRepository.deleteAll()
         managerRepository.deleteAll()
     }
+
     @Test
     @DisplayName("상품을 상세조회 하려는 사장님이 존재하지 않으면 예외가 발생한다.")
     fun occurSelectProductInfoNotExistsManagerInfoException() {
@@ -37,7 +40,7 @@ class ProductReadServiceTest(
 
         //when
         val errorCode = assertThrows<CommonException> {
-            productReadService.getDetail(managerId = managerId, productId =  product.id)
+            productReadService.getDetail(managerId = managerId, productId = product.id)
         }.errorCode
 
         //then
@@ -56,7 +59,7 @@ class ProductReadServiceTest(
 
         //when
         val errorCode = assertThrows<CommonException> {
-            productReadService.getDetail(managerId = manager1.id, productId =  product.id)
+            productReadService.getDetail(managerId = manager1.id, productId = product.id)
         }.errorCode
 
         //then
@@ -72,7 +75,8 @@ class ProductReadServiceTest(
         val product = productRepository.create(manager = manager)
 
         //when
-        val findProduct = productReadService.getDetail(managerId = manager.id, productId = product.id)
+        val findProduct =
+            productReadService.getDetail(managerId = manager.id, productId = product.id)
 
         //then
         assertEquals(findProduct.id, product.id)
@@ -82,6 +86,32 @@ class ProductReadServiceTest(
         assertEquals(findProduct.barcode, product.barcode)
         assertEquals(findProduct.size, product.size)
         assertEquals(findProduct.expirationDate, product.expirationDate)
+    }
+
+    @Test
+    @DisplayName("상품 목록을 조회하려는 사장님이 존재하지 않으면 예외가 발생한다.")
+    fun occurSelectProductsNotExistsManagerInfoException() {
+        //given
+        val managerId = -1L
+        val keyword = null
+        val page = 0
+        val limit = 10
+        val offset = 0L
+
+        //when
+        val errorCode = assertThrows<CommonException> {
+            productReadService.getProducts(
+                id = managerId,
+                keyword = keyword,
+                page = page,
+                limit = limit,
+                offset = offset,
+            )
+        }.errorCode
+
+        //then
+        assertEquals("존재하지 않은 정보입니다.", errorCode.message)
+        assertEquals(HttpStatus.NOT_FOUND, errorCode.status)
     }
 }
 
