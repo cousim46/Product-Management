@@ -251,6 +251,30 @@ class ProductWriteServiceTest(
         assertEquals(HttpStatus.CONFLICT, errorCode.status)
     }
 
+    @Test
+    @DisplayName("사장님은 상품을 수정할 수 있다.")
+    fun updateManagerProductInfo() {
+        //given
+        val manager = managerRepository.create()
+        val product = productRepository.create(manager = manager)
+        val changeBeforeProductName = product.name
+        val changeBeforeProductprice = product.price
+
+        //when
+        productWriteService.update(
+            managerId = manager.id, productId = product.id,
+            productUpdate = updateProductInfo(name = "바닐라라떼", price = 6000)
+        )
+
+        //then
+        val findProduct = productRepository.findById(product.id).get()
+        assertNotEquals(changeBeforeProductName, findProduct.name)
+        assertNotEquals(changeBeforeProductprice, findProduct.price)
+        assertEquals("바닐라라떼",findProduct.name)
+        assertEquals(6000,findProduct.price)
+    }
+
+
     private fun createProductInfo(
         category: String = "음료",
         price: Long = 5000,
