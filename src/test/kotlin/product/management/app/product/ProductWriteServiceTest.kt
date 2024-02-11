@@ -127,6 +127,25 @@ class ProductWriteServiceTest(
         assertEquals(HttpStatus.NOT_FOUND, errorCode.status)
     }
 
+
+    @Test
+    @DisplayName("상품을 삭제하려는 사장님이 등록한 상품이 아닌 경우 예외가 발생한다.")
+    fun occurSelectProductInfoNotEqualsManagerAndProduct() {
+        //given
+        val manager1 = managerRepository.create()
+        val manager2 = managerRepository.create()
+        val product = productRepository.create(manager = manager2)
+
+        //when
+        val errorCode = assertThrows<CommonException> {
+            productWriteService.delete(managerId = manager1.id, productId =  product.id)
+        }.errorCode
+
+        //then
+        assertEquals("존재하지 않는 상품정보입니다.", errorCode.message)
+        assertEquals(HttpStatus.NOT_FOUND, errorCode.status)
+    }
+
     private fun createProductInfo(
         category: String = "음료",
         price: Int = 5000,
