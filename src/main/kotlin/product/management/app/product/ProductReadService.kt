@@ -1,5 +1,6 @@
 package product.management.app.product
 
+import org.springframework.data.domain.Slice
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -26,4 +27,18 @@ class ProductReadService(
                 )
         return product
     }
+
+    fun getProducts(id: Long, keyword: String?, page: Int, limit: Int, offset: Long): Slice<Product> {
+        val manager = managerRepository.findByIdOrNull(id) ?: throw CommonException(
+            CommonErrorCode.NOT_EXSISTS_INFO
+        )
+        return productRepository.findProduct(
+            keyword = keyword,
+            managerId = manager.id,
+            page = page,
+            limit = limit,
+            offset = offset
+        )
+    }
+
 }
