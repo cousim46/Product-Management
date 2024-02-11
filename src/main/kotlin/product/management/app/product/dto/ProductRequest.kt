@@ -1,11 +1,12 @@
 package product.management.app.product.dto
 
 import product.management.api.product.dto.request.ProductApiCreate
+import product.management.api.product.dto.request.ProductApiUpdate
 import product.management.app.product.enums.Size
 import product.management.app.product.utils.Barcode
 import java.time.LocalDateTime
 
-data class ProductInfo(
+data class ProductCreate(
     val category: String,
     val price: Long,
     val name: String,
@@ -18,10 +19,9 @@ data class ProductInfo(
     val manufacturerCode: String,
     val cost: Long,
 ) {
-
     companion object {
-        fun of(productCreate: ProductApiCreate): ProductInfo {
-            return ProductInfo(
+        fun of(productCreate: ProductApiCreate): ProductCreate {
+            return ProductCreate(
                 category = productCreate.category,
                 price = productCreate.price,
                 name = productCreate.name,
