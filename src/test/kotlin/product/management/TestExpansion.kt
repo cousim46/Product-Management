@@ -24,7 +24,7 @@ internal fun ManagerRepository.create(
 
 internal fun ProductRepository.create(
     category: String = "음료",
-    price: Int = 5000,
+    price: Long = 5000,
     name: String = "아메리카노",
     explain: String = "커피입니다.",
     expirationDate: LocalDateTime = LocalDateTime.now(),
