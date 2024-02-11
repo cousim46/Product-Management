@@ -44,7 +44,7 @@ class ProductWriteServiceTest(
         val productInfo = createProductInfo()
         productRepository.create(
             manager = manager, companyInfo = CompanyInfo(
-                code = productInfo.prefix,
+                code = productInfo.code,
                 productIdentifier = productInfo.productIdentifier,
                 manufacturerCode = productInfo.manufacturerCode
             ), barcode = productInfo.barcode
@@ -228,7 +228,7 @@ class ProductWriteServiceTest(
             companyInfo = companyInfo,
             barcode = Barcode.create(
                 productIdentifier = companyInfo.productIdentifier,
-                prefix = companyInfo.code,
+                code = companyInfo.code,
                 manufacturerCode = companyInfo.manufacturerCode
             )
         )
@@ -240,7 +240,7 @@ class ProductWriteServiceTest(
                 productId = product.id,
                 updateProductInfo(
                     productIdentifier = companyInfo.productIdentifier,
-                    prefix = companyInfo.code,
+                    code = companyInfo.code,
                     manufacturerCode = companyInfo.manufacturerCode
                 )
             )
@@ -281,7 +281,7 @@ class ProductWriteServiceTest(
         name: String = "아메리카노",
         explain: String = "커피입니다.",
         expirationDate: LocalDateTime = LocalDateTime.now(),
-        prefix: String = "880",
+        code: String = "880",
         productIdentifier: String = "ICM",
         manufacturerCode: String = "1234",
         size: String = Size.SMALL.name,
@@ -295,7 +295,7 @@ class ProductWriteServiceTest(
                 content = explain,
                 expirationDate = expirationDate,
                 size = size,
-                prefix = prefix,
+                code = code,
                 productIdentifier = productIdentifier,
                 manufacturerCode = manufacturerCode,
                 cost = cost,
@@ -309,7 +309,7 @@ class ProductWriteServiceTest(
         name: String = "아메리카노",
         explain: String = "커피입니다.",
         expirationDate: LocalDateTime = LocalDateTime.now(),
-        prefix: String = "880",
+        code: String = "880",
         productIdentifier: String = "ICM",
         manufacturerCode: String = "1234",
         size: String = Size.SMALL.name,
@@ -323,7 +323,7 @@ class ProductWriteServiceTest(
                 content = explain,
                 expirationDate = expirationDate,
                 size = size,
-                prefix = prefix,
+                code = code,
                 productIdentifier = productIdentifier,
                 manufacturerCode = manufacturerCode,
                 cost = cost,

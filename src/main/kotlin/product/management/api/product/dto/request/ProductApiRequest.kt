@@ -14,7 +14,7 @@ data class ProductApiCreate(
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     val expirationDate: LocalDateTime,
     val size: String,
-    val prefix: String,
+    val code: String,
     val productIdentifier: String,
     val manufacturerCode: String,
     val cost: Long
@@ -38,7 +38,7 @@ data class ProductApiUpdate(
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     val expirationDate: LocalDateTime,
     val size: String,
-    val prefix: String,
+    val code: String,
     val productIdentifier: String,
     val manufacturerCode: String,
     val cost: Long

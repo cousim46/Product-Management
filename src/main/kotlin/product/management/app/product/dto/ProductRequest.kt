@@ -14,7 +14,7 @@ data class ProductCreate(
     val barcode: String,
     val expirationDate: LocalDateTime,
     val size: Size,
-    val prefix: String,
+    val code: String,
     val productIdentifier: String,
     val manufacturerCode: String,
     val cost: Long,
@@ -26,14 +26,14 @@ data class ProductCreate(
                 price = productCreate.price,
                 name = productCreate.name,
                 barcode = Barcode.create(
-                    prefix = productCreate.prefix,
+                    code = productCreate.code,
                     manufacturerCode = productCreate.manufacturerCode,
                     productIdentifier = productCreate.productIdentifier
                 ),
                 content = productCreate.content,
                 expirationDate = productCreate.expirationDate,
                 size = Size.valueOf(productCreate.size),
-                prefix = productCreate.prefix,
+                code = productCreate.code,
                 productIdentifier = productCreate.productIdentifier,
                 manufacturerCode = productCreate.manufacturerCode,
                 cost = productCreate.cost
@@ -50,7 +50,7 @@ data class ProductUpdate(
     val barcode: String,
     val expirationDate: LocalDateTime,
     val size: Size,
-    val prefix: String,
+    val code: String,
     val productIdentifier: String,
     val manufacturerCode: String,
     val cost: Long,
@@ -62,14 +62,14 @@ data class ProductUpdate(
                 price = productApiUpdate.price,
                 name = productApiUpdate.name,
                 barcode = Barcode.create(
-                    prefix = productApiUpdate.prefix,
+                    code = productApiUpdate.code,
                     manufacturerCode = productApiUpdate.manufacturerCode,
                     productIdentifier = productApiUpdate.productIdentifier
                 ),
                 content = productApiUpdate.content,
                 expirationDate = productApiUpdate.expirationDate,
                 size = Size.valueOf(productApiUpdate.size),
-                prefix = productApiUpdate.prefix,
+                code = productApiUpdate.code,
                 productIdentifier = productApiUpdate.productIdentifier,
                 manufacturerCode = productApiUpdate.manufacturerCode,
                 cost = productApiUpdate.cost

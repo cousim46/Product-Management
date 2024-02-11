@@ -27,7 +27,7 @@ class ProductWriteService(
             throw CommonException(ALREADY_EXSISTS_BARCODE)
         }
         val companyInfo = createCompanyInfo(
-            code = productCreate.prefix, manufacturer = productCreate.manufacturerCode,
+            code = productCreate.code, manufacturer = productCreate.manufacturerCode,
             productIdentifier = productCreate.productIdentifier
         )
 
@@ -74,7 +74,7 @@ class ProductWriteService(
             }
         }
         val companyInfo = createCompanyInfo(
-            code = productUpdate.prefix, manufacturer = productUpdate.manufacturerCode,
+            code = productUpdate.code, manufacturer = productUpdate.manufacturerCode,
             productIdentifier = productUpdate.productIdentifier
         )
 
