@@ -8,7 +8,8 @@ import java.time.LocalDateTime
 
 data class ProductDetailInfo(
     val name: String,
-    val price: Int,
+    val price: Long,
+    val cost: Long,
     val content: String,
     @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분 ss초")
     val expirationDate: LocalDateTime,
@@ -21,7 +22,8 @@ data class ProductDetailInfo(
                 price =  product.price,
                 content =  product.content,
                 expirationDate = product.expirationDate,
-                size =  product.size
+                size =  product.size,
+                cost = product.cost
             )
         }
     }
@@ -58,7 +60,7 @@ data class Products(
 data class ProductsInfo(
     val productId: Long,
     val name: String,
-    val price: Int,
+    val price: Long,
     val content: String,
     @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분 ss초")
     val expirationDate: LocalDateTime,

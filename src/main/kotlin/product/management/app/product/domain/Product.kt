@@ -11,7 +11,7 @@ class Product(
     @Column(nullable = false)
     val category: String,
     @Column(nullable = false)
-    val price: Int,
+    val price: Long,
     @Column(nullable = false)
     var name: String,
     @Column(nullable = false)

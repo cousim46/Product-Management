@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 
 data class ProductInfo(
     val category: String,
-    val price: Int,
+    val price: Long,
     val name: String,
     val content: String,
     val barcode: String,

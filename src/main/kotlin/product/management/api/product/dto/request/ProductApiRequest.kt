@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 
 data class ProductApiCreate(
     val category: String,
-    val price: Int,
+    val price: Long,
     val name: String,
     val content: String,
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
