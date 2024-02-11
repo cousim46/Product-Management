@@ -29,7 +29,7 @@ class ManagerTest {
         }.errorCode
 
         //then
-        assertEquals("핸드폰 번호는 11글자여야 합니다.",errorCode.message)
+        assertEquals("010으로 시작하는 핸드폰 번호는 11글자여야 합니다.",errorCode.message)
         assertEquals(HttpStatus.BAD_REQUEST,errorCode.status)
     }
 
@@ -51,7 +51,7 @@ class ManagerTest {
         }.errorCode
 
         //then
-        assertEquals("핸드폰 번호는 11글자여야 합니다.",errorCode.message)
+        assertEquals("010으로 시작하는 핸드폰 번호는 11글자여야 합니다.",errorCode.message)
         assertEquals(HttpStatus.BAD_REQUEST,errorCode.status)
     }
 
@@ -91,7 +91,7 @@ class ManagerTest {
         }.errorCode
 
         //then
-        assertEquals("핸드폰 번호는 10글자여야 합니다.",errorCode.message)
+        assertEquals("011로 시작하는 핸드폰 번호는 10글자여야 합니다.",errorCode.message)
         assertEquals(HttpStatus.BAD_REQUEST,errorCode.status)
     }
 
@@ -113,7 +113,7 @@ class ManagerTest {
         }.errorCode
 
         //then
-        assertEquals("핸드폰 번호는 10글자여야 합니다.",errorCode.message)
+        assertEquals("011로 시작하는 핸드폰 번호는 10글자여야 합니다.",errorCode.message)
         assertEquals(HttpStatus.BAD_REQUEST,errorCode.status)
     }
 
