@@ -172,6 +172,7 @@ class ProductWriteServiceTest(
         productIdentifier: String = "ICM",
         manufacturerCode: String = "1234",
         size: String = Size.SMALL.name,
+        cost: Long = 1000
     ): ProductInfo {
         return ProductInfo.of(
             ProductApiCreate(
@@ -184,6 +185,7 @@ class ProductWriteServiceTest(
                 prefix = prefix,
                 productIdentifier = productIdentifier,
                 manufacturerCode = manufacturerCode,
+                cost = cost,
             )
         )
     }

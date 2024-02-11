@@ -16,6 +16,7 @@ data class ProductInfo(
     val prefix: String,
     val productIdentifier: String,
     val manufacturerCode: String,
+    val cost: Long,
 ) {
 
     companion object {
@@ -34,7 +35,8 @@ data class ProductInfo(
                 size = Size.valueOf(productCreate.size),
                 prefix = productCreate.prefix,
                 productIdentifier = productCreate.productIdentifier,
-                manufacturerCode = productCreate.manufacturerCode
+                manufacturerCode = productCreate.manufacturerCode,
+                cost = productCreate.cost
             )
         }
     }

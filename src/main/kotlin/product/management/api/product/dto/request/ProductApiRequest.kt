@@ -17,6 +17,7 @@ data class ProductApiCreate(
     val prefix: String,
     val productIdentifier: String,
     val manufacturerCode: String,
+    val cost: Long
 ) {
     init {
         require(Size.contains(size)) {

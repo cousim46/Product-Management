@@ -32,6 +32,7 @@ internal fun ProductRepository.create(
     size: Size = Size.SMALL,
     companyInfo: CompanyInfo = CompanyInfo(code = "880", productIdentifier = "ICM", manufacturerCode = "445" ),
     manager: Manager,
+    cost: Long = 1000
 ): Product = this.saveAndFlush(
     Product(
         category = category,
@@ -43,6 +44,7 @@ internal fun ProductRepository.create(
         size = size,
         companyInfo = companyInfo,
         manager= manager,
-        namePrefix = LanguageSeparation.extractPrefix(name)
+        namePrefix = LanguageSeparation.extractPrefix(name),
+        cost = cost
         ),
 )

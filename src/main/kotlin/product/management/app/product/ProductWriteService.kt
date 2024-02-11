@@ -42,7 +42,8 @@ class ProductWriteService(
                 companyInfo = companyInfo,
                 manager = manager,
                 barcode = productInfo.barcode,
-                namePrefix = LanguageSeparation.extractPrefix(productInfo.name)
+                namePrefix = LanguageSeparation.extractPrefix(productInfo.name),
+                cost = productInfo.cost
             )
         )
         return product.id

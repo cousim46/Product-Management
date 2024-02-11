@@ -28,6 +28,8 @@ class Product(
     var namePrefix: String,
     @ManyToOne(fetch = FetchType.LAZY)
     val manager: Manager,
+    @Column(nullable = false)
+    val cost: Long,
 ) : BaseEntity() {
 
     fun returnManagerId() = manager.id
