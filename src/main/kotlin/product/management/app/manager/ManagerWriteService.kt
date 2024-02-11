@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional
 import product.management.app.manager.domain.Manager
 import product.management.app.token.TokenRepository
 import product.management.error.CommonErrorCode
+import product.management.error.CommonErrorCode.*
 import product.management.error.CommonException
 import product.management.token.LoginToken
 import product.management.token.TokenProvider
@@ -21,16 +22,19 @@ class ManagerWriteService(
 ) {
     fun create(phone: String, password: String, salt: Int): Manager {
         val encodePassword = encodePassword(salt = salt, password = password)
+        require(!managerRepository.existsByPhone(phone)) {
+            throw CommonException(ALREADY_EXSISTS_PHONE)
+        }
         val manager = Manager(phone = phone, password = encodePassword, salt = salt)
         return managerRepository.save(manager)
     }
 
     fun login(phone: String, password: String, now: Date): LoginToken {
         val president = managerRepository.findByPhone(phone)
-            ?: throw CommonException(CommonErrorCode.NOT_MATCH_ID_OR_PASSWORD)
+            ?: throw CommonException(NOT_MATCH_ID_OR_PASSWORD)
         val saltPassword = password + president.salt
         require(bCryptPasswordEncoder.matches(saltPassword, president.password)) {
-            throw CommonException(CommonErrorCode.NOT_MATCH_ID_OR_PASSWORD)
+            throw CommonException(NOT_MATCH_ID_OR_PASSWORD)
         }
         if (tokenRepository.existsByManagerId(managerId = president.id)) {
             tokenRepository.deleteByManagerId(managerId = president.id)
