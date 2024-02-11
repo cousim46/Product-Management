@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import product.management.error.CommonException
 import product.management.api.manager.dto.request.RandomNumber
+import product.management.create
 
 @SpringBootTest
 class ManagerWriteServiceTest(
@@ -37,7 +38,7 @@ class ManagerWriteServiceTest(
         }.errorCode
 
         //then
-        Assertions.assertEquals("핸드폰 번호는 11글자여야 합니다.", errorCode.message)
+        Assertions.assertEquals("010으로 시작하는 핸드폰 번호는 11글자여야 합니다.", errorCode.message)
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, errorCode.status)
     }
 
@@ -55,7 +56,7 @@ class ManagerWriteServiceTest(
         }.errorCode
 
         //then
-        Assertions.assertEquals("핸드폰 번호는 11글자여야 합니다.", errorCode.message)
+        Assertions.assertEquals("010으로 시작하는 핸드폰 번호는 11글자여야 합니다.", errorCode.message)
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, errorCode.status)
     }
 
@@ -90,7 +91,7 @@ class ManagerWriteServiceTest(
         }.errorCode
 
         //then
-        Assertions.assertEquals("핸드폰 번호는 10글자여야 합니다.", errorCode.message)
+        Assertions.assertEquals("011로 시작하는 핸드폰 번호는 10글자여야 합니다.", errorCode.message)
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, errorCode.status)
     }
 
@@ -108,7 +109,7 @@ class ManagerWriteServiceTest(
         }.errorCode
 
         //then
-        Assertions.assertEquals("핸드폰 번호는 10글자여야 합니다.", errorCode.message)
+        Assertions.assertEquals("011로 시작하는 핸드폰 번호는 10글자여야 합니다.", errorCode.message)
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, errorCode.status)
     }
 
@@ -168,5 +169,26 @@ class ManagerWriteServiceTest(
                 findPresident.password
             )
         )
+    }
+
+    @Test
+    @DisplayName("회원가입 하려는 핸드폰 번호가 이미 가입된 정보일 경우 예외가 발생한다.")
+    fun occurAlreadyExsistsPhoneException() {
+        //given
+        val manager = managerRepository.create()
+        val phone = manager.phone
+        val password = "password"
+        val salt = 123
+
+        //when
+        val errorCode = assertThrows<CommonException> {
+            managerWriteService.create(phone = phone, password = password, salt = salt)
+        }.errorCode
+
+        //then
+        Assertions.assertEquals("이미 가입된 정보입니다.", errorCode.message)
+        Assertions.assertEquals(HttpStatus.CONFLICT, errorCode.status)
+
+        //then
     }
 }
