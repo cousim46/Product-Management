@@ -9,7 +9,7 @@
 docker-compose up
 ```
 
-3. http://locahost:8080으로 API 테스트
+3. http://locahost:9000으로 API 테스트
 
 # 테이블 설계
 ![img.png](img.png)
@@ -500,7 +500,7 @@ RequestParam
       "page": 0,
       "infos": [
         {
-          "productId": 상품 고우id,
+          "productId": 상품 고유id,
           "name": 상품이름,
           "price": 가격,
           "content": 상품 설명,
