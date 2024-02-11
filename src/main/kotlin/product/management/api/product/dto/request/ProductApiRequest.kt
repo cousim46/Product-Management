@@ -29,3 +29,23 @@ data class ProductApiCreate(
 data class Search(
     val keyword: String?
 )
+
+data class ProductApiUpdate(
+    val category: String,
+    val price: Long,
+    val name: String,
+    val content: String,
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    val expirationDate: LocalDateTime,
+    val size: String,
+    val prefix: String,
+    val productIdentifier: String,
+    val manufacturerCode: String,
+    val cost: Long
+) {
+    init {
+        require(Size.contains(size)) {
+            throw CommonException(BAD_REQUEST_PRODUCT_SIZE)
+        }
+    }
+}
