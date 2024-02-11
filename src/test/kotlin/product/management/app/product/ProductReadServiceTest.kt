@@ -192,7 +192,6 @@ class ProductReadServiceTest(
             limit = limit,
             offset = offset,
         )
-        println("productReadService = ${products.content}")
 
         //then
         assertEquals(1,products.content.size )
