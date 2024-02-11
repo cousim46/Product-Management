@@ -143,5 +143,33 @@ class ProductReadServiceTest(
         assertEquals(products.content[0].name, product2.name)
         assertEquals(true, products.content[0].createdAt.isAfter(products.content[1].createdAt))
     }
+
+    @Test
+    @DisplayName("키워드를 통해 사장님 원하는 상품을 조회할 수 있습니다.")
+    fun selectProductByKeyword() {
+        //given
+        val manager = managerRepository.create()
+        val product1 = productRepository.create(manager = manager, name = "바닐라 라떼")
+        val product2 =
+            productRepository.create(manager = manager, barcode = "12345123", name = "아이스 아메리카노")
+        val keyword = "라떼"
+        val page = 0
+        val limit = 10
+        val offset = 0L
+
+        //when
+        val products: Slice<Product> = productReadService.getProducts(
+            id = manager.id,
+            keyword = keyword,
+            page = page,
+            limit = limit,
+            offset = offset,
+        )
+        println("productReadService = ${products.content}")
+
+        //then
+        assertEquals(1,products.content.size )
+        assertEquals(products.content[0].name, product1.name)
+    }
 }
 
