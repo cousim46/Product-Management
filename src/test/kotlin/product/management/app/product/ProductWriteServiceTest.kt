@@ -4,6 +4,7 @@ import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import product.management.api.product.dto.request.ProductApiCreate
 import product.management.app.manager.ManagerRepository
@@ -106,6 +107,24 @@ class ProductWriteServiceTest(
         //then
         assertEquals("잘못된 상품 사이즈 입니다.", errorCode.message)
         assertEquals(HttpStatus.BAD_REQUEST, errorCode.status)
+    }
+
+    @Test
+    @DisplayName("상품을 삭제하려는 사장님이 존재하지 않으면 예외가 발생한다.")
+    fun occurSelectProductInfoNotExistsManagerInfoException() {
+        //given
+        val managerId = -1L
+        val manager2 = managerRepository.create()
+        val product = productRepository.create(manager = manager2)
+
+        //when
+        val errorCode = assertThrows<CommonException> {
+            productWriteService.delete(managerId = managerId, productId =  product.id)
+        }.errorCode
+
+        //then
+        assertEquals("존재하지 않은 정보입니다.", errorCode.message)
+        assertEquals(HttpStatus.NOT_FOUND, errorCode.status)
     }
 
     private fun createProductInfo(
