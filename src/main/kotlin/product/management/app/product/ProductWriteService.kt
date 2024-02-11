@@ -47,4 +47,15 @@ class ProductWriteService(
         )
         return product.id
     }
+
+    fun delete(productId: Long, managerId: Long) {
+        val manager = managerRepository.findByIdOrNull(managerId) ?: throw CommonException(
+            CommonErrorCode.NOT_EXSISTS_INFO
+        )
+        val product =
+            productRepository.findByIdAndManagerId(productId = productId, managerId = manager.id)
+                ?: throw CommonException(
+                    CommonErrorCode.NOT_EXSISTS_PRODUCT_INFO)
+        productRepository.deleteByIdAndManagerId(productId = product.id, managerId = manager.id)
+    }
 }
