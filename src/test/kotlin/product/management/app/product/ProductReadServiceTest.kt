@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatus
@@ -35,7 +36,7 @@ class ProductReadServiceTest(
         val product = productRepository.create(manager = manager2)
 
         //when
-        val errorCode = org.junit.jupiter.api.assertThrows<CommonException> {
+        val errorCode = assertThrows<CommonException> {
             productReadService.getDetail(managerId = managerId, productId =  product.id)
         }.errorCode
 
@@ -54,7 +55,7 @@ class ProductReadServiceTest(
         val product = productRepository.create(manager = manager2)
 
         //when
-        val errorCode = org.junit.jupiter.api.assertThrows<CommonException> {
+        val errorCode = assertThrows<CommonException> {
             productReadService.getDetail(managerId = manager1.id, productId =  product.id)
         }.errorCode
 
