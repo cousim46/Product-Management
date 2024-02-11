@@ -113,5 +113,35 @@ class ProductReadServiceTest(
         assertEquals("존재하지 않은 정보입니다.", errorCode.message)
         assertEquals(HttpStatus.NOT_FOUND, errorCode.status)
     }
+
+    @Test
+    @DisplayName("사장님이 등록한 상품들을 조회할 수 있다.")
+    fun selectProduct() {
+        //given
+        val manager = managerRepository.create()
+        val product1 = productRepository.create(manager = manager, name = "바닐라 라떼")
+        val product2 =
+            productRepository.create(manager = manager, barcode = "12345123", name = "아이스 아메리카노")
+        val keyword = null
+        val page = 0
+        val limit = 10
+        val offset = 0L
+
+        //when
+        val products: Slice<Product> = productReadService.getProducts(
+            id = manager.id,
+            keyword = keyword,
+            page = page,
+            limit = limit,
+            offset = offset,
+        )
+        println("productReadService = ${products.content}")
+
+        //then
+        assertEquals(2,products.content.size )
+        assertEquals(products.content[1].name, product1.name)
+        assertEquals(products.content[0].name, product2.name)
+        assertEquals(true, products.content[0].createdAt.isAfter(products.content[1].createdAt))
+    }
 }
 
