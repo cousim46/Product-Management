@@ -146,6 +146,22 @@ class ProductWriteServiceTest(
         assertEquals(HttpStatus.NOT_FOUND, errorCode.status)
     }
 
+    @Test
+    @DisplayName("삭제하려는 상품이 사장님이 등록한 상품일 경우 상품을 삭제한다.")
+    fun deleteProduct() {
+        //given
+        val manager = managerRepository.create()
+        val product = productRepository.create(manager = manager)
+        val productId = product.id
+
+        //when
+        productWriteService.delete(managerId = manager.id, productId =  productId)
+
+        //then
+        val findByIdOrNull = productRepository.findByIdOrNull(productId)
+        assertEquals(null, findByIdOrNull)
+    }
+
     private fun createProductInfo(
         category: String = "음료",
         price: Int = 5000,
