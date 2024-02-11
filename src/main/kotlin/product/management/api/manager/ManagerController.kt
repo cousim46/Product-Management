@@ -16,7 +16,7 @@ import java.util.*
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
 
-@RequestMapping("/api/president")
+@RequestMapping("/api/manager")
 @RestController
 class ManagerController(
     private val managerWriteService: ManagerWriteService,
