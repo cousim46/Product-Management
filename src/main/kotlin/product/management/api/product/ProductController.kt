@@ -43,4 +43,9 @@ class ProductController(
         productWriteService.delete(productId = productId, managerId = loginInfo.id)
         return CommonResponse.toResponse()
     }
+    @PutMapping("/{product-id}")
+    fun update(@LoginUser loginInfo: LoginInfo, @PathVariable("product-id") productId: Long): CommonResponse {
+
+        return CommonResponse.toResponse()
+    }
 }
