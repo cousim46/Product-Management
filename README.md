@@ -9,7 +9,7 @@
 docker-compose up
 ```
 
-3. http://locahost:9000으로 API 테스트
+3. API 테스트 : http://locahost:9000
 
 # 테이블 설계
 ![img.png](img.png)
