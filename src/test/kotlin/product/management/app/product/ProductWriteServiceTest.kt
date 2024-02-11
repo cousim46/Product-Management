@@ -211,6 +211,46 @@ class ProductWriteServiceTest(
         assertEquals("존재하지 않는 상품정보입니다.", errorCode.message)
         assertEquals(HttpStatus.NOT_FOUND, errorCode.status)
     }
+
+    @Test
+    @DisplayName("수정하려는 상품의 바코드도 같이 변경 될 경우 해당 바코드가 이미 등록된 바코드일 경우 예외가 발생한다.")
+    fun occurUpdateProductInfoAlreadyExistsBarcode() {
+        //given
+        val manager1 = managerRepository.create()
+        val product = productRepository.create(manager = manager1)
+        val companyInfo = CompanyInfo(
+            code = "123",
+            productIdentifier = "test",
+            manufacturerCode = "123"
+        )
+        productRepository.create(
+            manager = manager1,
+            companyInfo = companyInfo,
+            barcode = Barcode.create(
+                productIdentifier = companyInfo.productIdentifier,
+                prefix = companyInfo.code,
+                manufacturerCode = companyInfo.manufacturerCode
+            )
+        )
+
+        //when
+        val errorCode = assertThrows<CommonException> {
+            productWriteService.update(
+                managerId = manager1.id,
+                productId = product.id,
+                updateProductInfo(
+                    productIdentifier = companyInfo.productIdentifier,
+                    prefix = companyInfo.code,
+                    manufacturerCode = companyInfo.manufacturerCode
+                )
+            )
+        }.errorCode
+
+        //then
+        assertEquals("이미 존재하는 바코드입니다.", errorCode.message)
+        assertEquals(HttpStatus.CONFLICT, errorCode.status)
+    }
+
     private fun createProductInfo(
         category: String = "음료",
         price: Long = 5000,
