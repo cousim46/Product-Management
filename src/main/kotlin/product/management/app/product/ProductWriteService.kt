@@ -1,5 +1,6 @@
 package product.management.app.product
 
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -23,15 +24,12 @@ class ProductWriteService(
         val manager = managerRepository.findByIdOrNull(managerId)
             ?: throw CommonException(CommonErrorCode.NOT_EXSISTS_INFO)
 
-        require(!productRepository.existsByBarcode(productCreate.barcode)) {
-            throw CommonException(ALREADY_EXSISTS_BARCODE)
-        }
         val companyInfo = createCompanyInfo(
             code = productCreate.code, manufacturer = productCreate.manufacturerCode,
             productIdentifier = productCreate.productIdentifier
         )
-
-        val product = productRepository.save(
+        try {
+            val product = productRepository.save(
             Product(
                 category = productCreate.category,
                 price = productCreate.price,
@@ -46,8 +44,12 @@ class ProductWriteService(
                 cost = productCreate.cost
             )
         )
-        return product.id
+            return product.id
+        } catch (e : DataIntegrityViolationException) {
+            throw CommonException(ALREADY_EXSISTS_BARCODE)
+        }
     }
+
     fun delete(productId: Long, managerId: Long) {
         val manager = managerRepository.findByIdOrNull(managerId) ?: throw CommonException(
             CommonErrorCode.NOT_EXSISTS_INFO
@@ -68,7 +70,7 @@ class ProductWriteService(
                 ?: throw CommonException(
                     CommonErrorCode.NOT_EXSISTS_PRODUCT_INFO
                 )
-        if (productUpdate.barcode != product.barcode) {
+       if (productUpdate.barcode != product.barcode) {
             if (productRepository.existsByBarcode(productUpdate.barcode)) {
                 throw CommonException(ALREADY_EXSISTS_BARCODE)
             }
@@ -77,19 +79,19 @@ class ProductWriteService(
             code = productUpdate.code, manufacturer = productUpdate.manufacturerCode,
             productIdentifier = productUpdate.productIdentifier
         )
+            product.update(
+                category = productUpdate.category,
+                price = productUpdate.price,
+                name = productUpdate.name,
+                content = productUpdate.content,
+                expirationDate = productUpdate.expirationDate,
+                size = productUpdate.size,
+                companyInfo = companyInfo,
+                barcode = productUpdate.barcode,
+                namePrefix = LanguageSeparation.extractPrefix(productUpdate.name),
+                cost = productUpdate.cost
+            )
 
-        product.update(
-            category = productUpdate.category,
-            price = productUpdate.price,
-            name = productUpdate.name,
-            content = productUpdate.content,
-            expirationDate = productUpdate.expirationDate,
-            size = productUpdate.size,
-            companyInfo = companyInfo,
-            barcode = productUpdate.barcode,
-            namePrefix = LanguageSeparation.extractPrefix(productUpdate.name),
-            cost = productUpdate.cost
-        )
     }
 
     private fun createCompanyInfo(

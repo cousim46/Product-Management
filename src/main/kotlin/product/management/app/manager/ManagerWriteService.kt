@@ -1,12 +1,13 @@
 package product.management.app.manager
 
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import product.management.app.manager.domain.Manager
 import product.management.app.token.TokenRepository
-import product.management.error.CommonErrorCode
-import product.management.error.CommonErrorCode.*
+import product.management.error.CommonErrorCode.ALREADY_EXSISTS_PHONE
+import product.management.error.CommonErrorCode.NOT_MATCH_ID_OR_PASSWORD
 import product.management.error.CommonException
 import product.management.token.LoginToken
 import product.management.token.TokenProvider
@@ -22,11 +23,12 @@ class ManagerWriteService(
 ) {
     fun create(phone: String, password: String, salt: Int): Manager {
         val encodePassword = encodePassword(salt = salt, password = password)
-        require(!managerRepository.existsByPhone(phone)) {
+        val manager = Manager(phone = phone, password = encodePassword, salt = salt)
+        try {
+            return managerRepository.save(manager)
+        }catch (e : DataIntegrityViolationException) {
             throw CommonException(ALREADY_EXSISTS_PHONE)
         }
-        val manager = Manager(phone = phone, password = encodePassword, salt = salt)
-        return managerRepository.save(manager)
     }
 
     fun login(phone: String, password: String, now: Date): LoginToken {
