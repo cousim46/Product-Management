@@ -31,5 +31,27 @@ class CommonExceptionResponse {
                     )
                 )
         }
+        fun invalidFormatResponse(errorMessage: String) : ResponseEntity<CommonResponse> {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(
+                    CommonResponse.toResponse(
+                        Meta.of(
+                            code = HttpStatus.BAD_REQUEST.value(),
+                            message = errorMessage,
+                        )
+                    )
+                )
+        }
+        fun methodArgumentTypeMismatchResponse(errorMessage: String) : ResponseEntity<CommonResponse> {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(
+                    CommonResponse.toResponse(
+                        Meta.of(
+                            code = HttpStatus.BAD_REQUEST.value(),
+                            message = errorMessage,
+                        )
+                    )
+                )
+        }
     }
 }
