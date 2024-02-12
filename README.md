@@ -541,11 +541,43 @@ class GlobalExceptionProcessor {
   fun notNullExceptionResponse(e: MissingKotlinParameterException): ResponseEntity<CommonResponse> {
     return CommonExceptionResponse.toNotNullableResponse("${e.path[0].fieldName} 필수로 입력해야합니다.")
   }
+  
+  @ExceptionHandler(InvalidFormatException::class)
+  fun invalidFormatExceptionResponse(e: InvalidFormatException) : ResponseEntity<CommonResponse> {
+    return CommonExceptionResponse.invalidFormatResponse("${e.path[0].fieldName} 타입이 알맞지 않습니다.")
+  }
+  
+  @ExceptionHandler(MethodArgumentTypeMismatchException::class)
+  fun methodArgumentTypeMismatchExceptionResponse2(e: MethodArgumentTypeMismatchException) : ResponseEntity<CommonResponse> {
+    return CommonExceptionResponse.methodArgumentTypeMismatchResponse("${e.parameter.parameterName} 타입이 알맞지 않습니다.")
+  }
+}
+```
+
+1. 타입 오류일때에 대한 응답
+```json
+{
+    "meta": {
+        "code": 400,
+        "message": "${필드명} 타입이 알맞지 않습니다."
+    },
+    "data": null
+}
+```
+2. NotNull 특성을 가진 필드의 값이 null로 들어왔을때에 대한 응답
+```json
+{
+    "meta": {
+        "code": 400,
+        "message": "${필드명} 필수로 입력해야합니다."
+    },
+    "data": null
 }
 ```
 ### 설명
 - RestControllerAdvice를 사용하여 런타임시 발생하는 예외에 대해 커스텀 예외를 만들고 전역적으로 처리할 수 있게 구현하였습니다.
 - NotNull 특성을 가진 필드의 값이 null로 들어왔을 때에 대한 예외처리도 추가적으로 구현하였습니다.
+- 요청값 타입 오류에 대한 예외처리도 추가적으로 구현하였습니다.
 
 
 ## api, app 패키지
