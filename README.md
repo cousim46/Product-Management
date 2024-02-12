@@ -210,7 +210,7 @@ RequestBody
     "cost" : 원가,
     "name" : 상품 이름,
     "content" : 상품 설명,
-    "expirationDate" : 유통기한,
+    "expirationDate" : 유통기한, //2024년 2월 12일 13시 51분 10초
     "size" : 사이즈,
     "code" : GS1으로부터 할당받은 회사 또는 단체 고유 코드,
     "productIdentifier" : 상품 고유 코드,
