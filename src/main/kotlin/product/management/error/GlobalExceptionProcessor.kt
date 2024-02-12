@@ -28,6 +28,6 @@ class GlobalExceptionProcessor {
     }
     @ExceptionHandler(MethodArgumentTypeMismatchException::class)
     fun methodArgumentTypeMismatchExceptionResponse2(e: MethodArgumentTypeMismatchException) : ResponseEntity<CommonResponse> {
-        return CommonExceptionResponse.methodArgumentTypeMismatchResponse("타입이 알맞지 않습니다.")
+        return CommonExceptionResponse.methodArgumentTypeMismatchResponse("${e.parameter.parameterName} 타입이 알맞지 않습니다.")
     }
 }
