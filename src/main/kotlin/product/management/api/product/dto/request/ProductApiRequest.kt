@@ -35,7 +35,7 @@ data class ProductApiUpdate(
     val price: Long,
     val name: String,
     val content: String,
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분 ss초")
     val expirationDate: LocalDateTime,
     val size: String,
     val code: String,
