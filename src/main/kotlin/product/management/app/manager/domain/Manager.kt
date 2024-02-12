@@ -12,7 +12,7 @@ import javax.persistence.Enumerated
 
 @Entity
 class Manager(
-    @Column(nullable = false, length = 11)
+    @Column(nullable = false, length = 11, unique = true)
     var phone: String,
     @Column(nullable = false)
     var password: String,
